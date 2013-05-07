@@ -1,0 +1,88 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <meta name="description" content="TKAB Vehicle Damage">
+
+    <!-- Disable auto phone numbers recognition which causes ghost clicks -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Mobile viewport optimization h5bp.com/ad -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <!-- Include AIQ HTML5 framework JS -->
+    <script src="aiq/js/AIQ.js"></script>
+
+    <script>
+        var TD = {};
+
+        getCssResources = function () {
+            // AIQ
+            var fwCssResources = [
+                "aiq/css/normalize.css",
+                "aiq/css/layout.css",
+                "aiq/css/ui.css"
+            ];
+
+            // Plugins
+            var pluginCssResources = [
+                'aiq/plugins/iscroll/css/iscroll.css'
+            ];
+
+            // App
+            var appCssResources = [
+                "css/fonts.css",
+                "css/app-styles.css"
+            ];
+
+            return fwCssResources.concat(pluginCssResources, appCssResources);
+        };
+
+        // init application with your App's script resources
+        AIQ.init(getCssResources(),
+            [
+                // Plugins
+                'aiq/plugins/iscroll/libs/iscroll.js',
+                'aiq/plugins/iscroll/js/Initializer.js',
+
+                // Models
+                'js/models/Vehicle.js',
+                'js/models/VehicleDefectReport.js',
+                'js/models/VehicleType.js',
+                'js/models/VehicleDefectImage.js',
+
+                // Controllers
+                'js/controllers/Home.js',
+                'js/controllers/VehicleDefectList.js',
+                'js/controllers/VehicleDefectListItem.js',
+                'js/controllers/VehicleDefectDetails.js',
+                'js/controllers/VehicleDefectDetailsItem.js',
+                'js/controllers/ReportDamage-VehiclePart.js',
+                'js/controllers/ReportDamage-ErrorType.js',
+                'js/controllers/ReportDamage-Description.js',
+                'js/controllers/ReportDamage-Pictures.js',
+                'js/controllers/PictureListItem.js',
+                'js/controllers/ReportDamage-Summary.js',
+                'js/controllers/ReportDamage-Confirmation.js',
+                'js/jquery.dateFormat-1.0.js'
+            ],
+            {
+                mock: true
+            });
+    </script>
+</head>
+
+<body>
+<!-- Required: #viewport container -->
+<div id="viewport">
+    <!-- Pages will dynamically be added here -->
+</div>
+
+<div id="imageCache">
+    <!-- dummy element used to load and cache CSS background images -->
+</div>
+</body>
+</html>

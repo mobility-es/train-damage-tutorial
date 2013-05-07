@@ -1,0 +1,409 @@
+@import "theme-variables";
+
+// Input controls
+
+input, textarea {
+    // Override iOS default styles
+    @include border-radius(0);
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+
+    height: $inputBgHeight;
+    padding: 0 1.9em 0 0.2em;
+
+    @include placeholder-color($fontLightGreyColor);
+    @include box-sizing(border-box);
+
+    border: 1px solid $widgetBorderColor;
+    background-image: $inputBg;
+    background-repeat: repeat-x;
+    background-size: auto $inputBgHeight;
+}
+
+.search {
+    background-image: $greyMagnifier, $inputBg;
+    background-repeat: no-repeat, repeat-x;
+    background-position: right, 0 0;
+    background-size: -aiq-em(30px, $baseline) -aiq-em(24px, $baseline), auto $inputBgHeight;
+}
+
+// Buttons
+
+button {
+    // Override browser defaults
+    padding: 0;
+    border: none;
+
+    &[disabled] {
+        opacity: 0.3;
+        cursor: default;
+    }
+
+    &.white {
+        $btnHeight: 40px;
+        $fontSize: 12px;
+
+        font-size: -aiq-em($fontSize, $baseline);
+        color: #303030;
+        background-image: $whiteBtnBgDefault;
+        background-repeat: repeat-x;
+        background-size: auto -aiq-em($btnHeight, $fontSize);
+        height: -aiq-em($btnHeight, $fontSize);
+        border: 1px solid $widgetBorderColor;
+
+        &:active,
+        &.active {
+            background-image: $whiteBtnBgPressed;
+
+            &[disabled] {
+                background-image: $whiteBtnBgDefault;
+            }
+        }
+    }
+
+    &.black {
+        color: white;
+
+        background-image: $blackBtnBgDefault;
+        background-repeat: repeat-x;
+        background-size: auto -aiq-em($buttonHeight, $baseline);
+
+        height: -aiq-em($buttonHeight, $baseline);
+
+        @include box-shadow(0 0 0.5em #111);
+
+        &[disabled] {
+            @include box-shadow(none);
+        }
+
+        &:active,
+        &.active {
+            background-image: $blackBtnBgPressed;
+
+            @include box-shadow(none);
+
+            &[disabled] {
+                background-image: $blackBtnBgDefault;
+            }
+        }
+
+        &.with-left-icon {
+
+            padding-left: -aiq-em($buttonIconSize, $baseline);
+
+            background-repeat: no-repeat, repeat-x;
+            background-size: -aiq-em($buttonIconSize, $baseline), auto -aiq-em($buttonHeight, $baseline);
+
+            $topPositionPx: ($buttonHeight - $buttonIconSize ) / 2;
+            background-position: -aiq-em($topPositionPx, $baseline) -aiq-em($topPositionPx, $baseline), 0 0;
+        }
+    }
+}
+
+// Basic list
+ul {
+    list-style-type: none;
+}
+
+// 1 level list
+
+.AIQ-ui-list {
+    > li {
+
+        min-height: -aiq-em($liHeight, $baseline);
+
+        background-color: white;
+
+        // Overrides
+        & + li {
+            border: none;
+        }
+
+        > a {
+            text-decoration: none;
+            font-size: -aiq-em($liFontSize, $baseline);
+
+            // Make the same height as the parent <li>, so that the list item is clickable on its full height
+            min-height: -aiq-em($liHeight, $liFontSize);
+
+            // Override
+            padding-left: 1em;
+
+            // For the padding to be included in the height
+            @include box-sizing(border-box);
+
+            // Because even with "border-box", the border isn't included if "min-height" is set - "height" is required
+            height: -aiq-em($liHeight, $liFontSize);
+
+            background-image: $listArrow, $listBgDefault;
+            background-repeat: no-repeat, repeat-x;
+            background-position: right, 0 0;
+            background-size: $liArrowSize, auto -aiq-em($liHeight, $liFontSize);
+
+            &.active,
+            &.selected {
+                background-image: $listArrow, $listBgPressed;
+                background-repeat: no-repeat, repeat-x;
+                background-position: right, 0 0;
+                background-size: $liArrowSize, auto -aiq-em($liHeight, $liFontSize);
+            }
+        }
+    }
+}
+
+/******************************************************************************
+* 3 level list
+*****************************************************************************/
+
+// Icons
+$collapsedBullet: url('assets/expandable-list/collapsed-bullet.png');
+$expandedBullet: url('assets/expandable-list/expanded-bullet.png');
+$lvl3Bullet: url('assets/expandable-list/lvl3-bullet.png');
+
+// Bgs
+$lvl1HeadingExpanded: url('assets/expandable-list/lvl1-heading-expanded.png');
+$lvl2Pressed: url('assets/expandable-list/lvl2-pressed.png');
+$middleLvl2Collapsed: url('assets/expandable-list/middle-lvl2-collapsed.png');
+$lastLvl2Collapsed: url('assets/expandable-list/last-lvl2-collapsed.png');
+$lvl2HeadingExpanded: url('assets/expandable-list/lvl2-heading-expanded.png');
+$middleLvl3: url('assets/expandable-list/middle-lvl3.png');
+$bottomLvl3: url('assets/expandable-list/bottom-lvl3.png');
+
+$collapsedExandedBulletSize: -aiq-em(24px, $liFontSize);
+
+.AIQ-ui-list.three-levels {
+    @include box-sizing(border-box);
+
+    ul {
+        padding: 0;
+    }
+
+    a {
+        padding-top: 0.4em;
+    }
+
+    .collapsed,
+    .expanded {
+        > a {
+            background-image: $collapsedBullet, $listBgDefault;
+            background-repeat: no-repeat, repeat-x;
+            background-position: 0.3em 0.4em, 0 0;
+            background-size: $collapsedExandedBulletSize, auto -aiq-em($liHeight, $liFontSize);
+
+            &.active,
+            &.selected {
+                background-image: $collapsedBullet, $listBgPressed;
+            }
+
+            padding-left: 1.8em;
+        }
+    }
+
+    .expanded {
+        > a {
+            background-image: $expandedBullet, $lvl1HeadingExpanded;
+        }
+    }
+
+    .lvl2 {
+        &.collapsed,
+        &.expanded {
+            > a {
+                padding-left: 2.6em;
+
+                background-image: $collapsedBullet, $middleLvl2Collapsed;
+                background-position: 1.1em 0.4em, 0 0;
+
+                &.active,
+                &.selected {
+                    background-image: $collapsedBullet, $lvl2Pressed;
+                }
+            }
+        }
+
+        &.expanded {
+            > a {
+                background-image: $expandedBullet, $lvl2HeadingExpanded;
+            }
+        }
+
+        &:last-child.collapsed {
+            > a {
+                background-image: $collapsedBullet, $lastLvl2Collapsed;
+                background-repeat: no-repeat, repeat-x;
+                background-position: 1.1em 0.4em, 0 0;
+                background-size: $collapsedExandedBulletSize, auto -aiq-em($liHeight, $liFontSize);
+            }
+        }
+    }
+
+    .lvl3 {
+        $lvl3BulletSize: -aiq-em(4px, $liFontSize);
+
+        > a {
+            background-image: $lvl3Bullet, $listArrow, $middleLvl3;
+            background-repeat: no-repeat, no-repeat, repeat-x;
+            background-position: 2.8em 0.95em, right, 0 0;
+            background-size: $lvl3BulletSize, $liArrowSize, auto -aiq-em($liHeight, $liFontSize);
+
+            &.active,
+            &.selected {
+                background-image: $lvl3Bullet, $listArrow, $listBgPressed;
+            }
+
+            padding-left: 3.4em;
+        }
+
+        &:last-child {
+            > a {
+                background-image: $lvl3Bullet, $listArrow, $bottomLvl3;
+                background-repeat: no-repeat, no-repeat, repeat-x;
+                background-position: 2.8em 0.95em, right, 0 0;
+                background-size: $lvl3BulletSize, $liArrowSize, auto -aiq-em($liHeight, $liFontSize);
+            }
+        }
+    }
+}
+
+/******************************************************************************
+* Footer
+*****************************************************************************/
+
+$buttonIconSize: 24px;
+
+footer {
+    @include -aiq-clearfix();
+
+    &.fixed {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+    > a[role] {
+        $fontColor: white;
+
+        font-size: -aiq-em($footerButtonFontSize, $baseline);
+        text-align: center;
+        color: $fontColor;
+
+        // Border
+        $borderWidth: 1px;
+        border-top: $borderWidth solid #505050;
+        border-bottom: $borderWidth solid #1E1E1E;
+        border-right: $borderWidth solid #303030;
+
+        background-repeat: no-repeat, repeat-x;
+        background-size: -aiq-em($buttonIconSize, $footerButtonFontSize), auto -aiq-em($footerHeight - 2*$borderWidth, $footerButtonFontSize);
+        background-position: center 0.25em, 0 0;
+
+        width: 25%;
+        height: -aiq-em($footerHeight, $footerButtonFontSize);
+
+        &:hover,
+        &:active {
+            color: $fontColor;
+        }
+
+        &.without-top-icon {
+            background-repeat: repeat-x;
+            background-size: auto -aiq-em($footerHeight - 2*$borderWidth, $footerButtonFontSize);
+            background-position: 0 0;
+            background-image: $actionBarBtnBgDefault;
+
+            &:active,
+            &.active {
+                background-image: $actionBarBtnBgPressed;
+
+                &.disabled {
+                    background-image: $actionBarBtnBgDefault;
+                }
+            }
+
+            > p {
+                margin-top: 1.4em;
+            }
+        }
+
+        // To include the padding and border in the size
+        @include box-sizing(border-box);
+
+        float: left;
+
+        &.right {
+            float: right;
+        }
+
+        &.disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        > p {
+            margin-top: 2.5em;
+        }
+    }
+}
+
+a[role="next"] {
+    background-image: $rightArrow, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $rightArrow, $actionBarBtnBgPressed;
+    }
+}
+
+a[role="previous-item"] {
+    background-image: $upArrow, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $upArrow, $actionBarBtnBgPressed;
+    }
+}
+
+a[role="next-item"] {
+    background-image: $downArrow, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $downArrow, $actionBarBtnBgPressed;
+    }
+}
+
+a[role="modify"] {
+    background-image: $pen, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $pen, $actionBarBtnBgPressed;
+    }
+}
+
+a[role="delete"] {
+    background-image: $trash, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $trash, $actionBarBtnBgPressed;
+    }
+}
+
+a[role="cancel"] {
+    background-image: $cross, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $cross, $actionBarBtnBgPressed;
+    }
+}
+
+a[role="finish"] {
+    background-image: $finish, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $finish, $actionBarBtnBgPressed;
+    }
+}

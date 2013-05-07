@@ -1,0 +1,257 @@
+﻿[
+    {
+        "_type": "_backendcontext",
+        "com.appearnetworks.aiq.user": {
+            "username": "jdo",
+            "fullName": "John Doe",
+            "email": "jdo@example.org"
+        }
+    },
+    {
+        "_type":"TD.Vehicle",
+        "vehicleNumber":"9010",
+        "vehicleType":"Regina"
+    },
+    {
+        "_type":"TD.Vehicle",
+        "vehicleNumber":"9030",
+        "vehicleType":"Regina"
+    },
+    {
+        "_type":"TD.Vehicle",
+        "vehicleNumber":"9011",
+        "vehicleType":"Regina"
+    },
+    {
+        "_type":"TD.Vehicle",
+        "vehicleNumber":"9012",
+        "vehicleType":"Regina"
+    },
+    {
+        "_type":"TD.Vehicle",
+        "vehicleNumber":"9013",
+        "vehicleType":"Regina"
+    },
+    {
+        "_type":"TD.Vehicle",
+        "vehicleNumber":"9024",
+        "vehicleType":"Regina"
+    },
+    {
+        "_type":"TD.Vehicle",
+        "vehicleNumber":"9015",
+        "vehicleType":"Regina"
+    },
+    {
+        "_type":"TD.Vehicle",
+        "vehicleNumber":"9016",
+        "vehicleType":"Regina"
+    },
+    {
+        "_type":"TD.VehicleType",
+        "name":"Regina",
+        "defectCodes":[
+        {
+            "name":"Battery system",
+            "subcodes":[
+            {
+                "name":"Battery failure",
+                "subcodes":[
+                {
+                    "id":"12a",
+                    "name":"Minus-1"
+                },
+                {
+                    "id":"12b",
+                    "name":"APlus-1"
+                }]
+            },
+            {
+                "name":"Other",
+                "subcodes":[
+                {
+                    "id":"12m",
+                    "name":"Minus-1"
+                },
+                {
+                    "id":"12b",
+                    "name":"APlus-1"
+                }]
+            },
+            {
+                "name":"Engine system",
+                "subcodes":[
+                {
+                    "id":"122a",
+                    "name":"Engine power"
+                },
+                {
+                    "id":"132b",
+                    "name":"Engine failure"
+                }]
+            }]
+        },
+        {
+            "name":"Brake system",
+            "subcodes":[
+            {
+                "name":"Bogie",
+                "subcodes":[
+                {
+                    "id":"13a",
+                    "name":"Suspended disc brake"
+                },
+                {
+                    "id":"13b",
+                    "name":"Air leakage"
+                },
+                {
+                    "id":"13va",
+                    "name":"Abnormal sounds"
+                },
+                {
+                    "id":"13c",
+                    "name":"Failure breaks"
+                },
+                {
+                    "id":"13d",
+                    "name":"Other"
+                }]
+            }]
+        }],
+        "vehicleParts":[
+        {
+            "name":"DMA",
+            "value":"1"
+        },
+        {
+            "name":"T0",
+            "value":"2"
+        },
+        {
+            "name":"DMB",
+            "value":"3"
+        },
+        {
+            "name":"DMA+DMB",
+            "value":"4"
+        }]
+    },
+    {
+        "_type":"TD.VehicleDefectReport",
+        "defectNumber":null,
+        "vehicleNumber":"9030",
+        "defectCode":"13a",
+        "vehiclePart":"A+B",
+        "heading":"Battery system / Battery failure / Minus-1",
+        "defectText":"This is to test mock-data.json.",
+        "reportedBy":"Sidney Patrick Crosby",
+        "defectDateTime":1363771080000,
+        "defectCause":"Very cold temperatures",
+        "operation":"Bring train to workshop"
+    },
+    {
+        "_type":"TD.VehicleDefectReport",
+        "defectNumber":null,
+        "vehicleNumber":"9010",
+        "defectCode":"13a",
+        "vehiclePart":"A+B",
+        "heading":"Brake system / Bogie / Suspended disc brake",
+        "defectText":"Breaks on the bogie seems loose",
+        "reportedBy":"Leith Ewart",
+        "defectDateTime":1363773360000,
+        "defectCause":"Not determined",
+        "operation":"TBD"
+    },
+    {
+        "_type":"TD.VehicleDefectReport",
+        "defectNumber":null,
+        "vehicleNumber":"9010",
+        "defectCode":"13a",
+        "vehiclePart":"A+B",
+        "heading":"Battery system / Other / APlus-1",
+        "defectText":"The electric system has shut down",
+        "reportedBy":"Carlyn Abram",
+        "defectDateTime":1363855500000,
+        "defectCause":"Wrong coupling",
+        "operation":"Maintenance team should come on site"
+    },
+    {
+        "_type":"TD.VehicleDefectReport",
+        "defectNumber":null,
+        "vehicleNumber":"9011",
+        "defectCode":"13a",
+        "vehiclePart":"A+B",
+        "heading":"Battery system / Battery failure / Minus-1",
+        "defectText":"The battery has failed and the train could not start.",
+        "reportedBy":"Carlyn Abram",
+        "defectDateTime":1363873500000,
+        "defectCause":"Very cold temperatures",
+        "operation":"Bring train to workshop"
+    },
+    {
+        "_type":"TD.VehicleDefectReport",
+        "defectNumber":null,
+        "vehicleNumber":"9011",
+        "defectCode":"13a",
+        "vehiclePart":"A+B",
+        "heading":"Brake system / Bogie / Suspended disc brake",
+        "defectText":"Breaks on the bogie seems loose",
+        "reportedBy":"Leith Ewart",
+        "defectDateTime":1363869180000,
+        "defectCause":"Not determined",
+        "operation":"TBD"
+    },
+    {
+        "_type":"TD.VehicleDefectReport",
+        "defectNumber":null,
+        "vehicleNumber":"9011",
+        "defectCode":"13a",
+        "vehiclePart":"A+B",
+        "heading":"Battery system / Other / APlus-1",
+        "defectText":"The electric system has shut down",
+        "reportedBy":"Carlyn Abram",
+        "defectDateTime":1363873500000,
+        "defectCause":"Wrong coupling",
+        "operation":"Maintenance team should come on site"
+    },
+    {
+        "_type":"TD.VehicleDefectReport",
+        "defectNumber":null,
+        "vehicleNumber":"9012",
+        "defectCode":"13a",
+        "vehiclePart":"A+B",
+        "heading":"Battery system / Battery failure / Minus-1",
+        "defectText":"The battery has failed and the train could not start.",
+        "reportedBy":"Carlyn Abram",
+        "defectDateTime":1352160000000,
+        "defectCause":"Very cold temperatures",
+        "operation":"Bring train to workshop"
+    },
+    {
+        "_type":"TD.VehicleDefectReport",
+        "defectNumber":null,
+        "vehicleNumber":"9012",
+        "defectCode":"13a",
+        "vehiclePart":"A+B",
+        "heading":"Brake system / Bogie / Suspended disc brake",
+        "defectText":"Breaks on the bogie seems loose",
+        "reportedBy":"Leith Ewart",
+        "defectDateTime":1351728000000,
+        "defectCause":"Not determined",
+        "operation":"TBD"
+    },
+    {
+        "_type":"TD.VehicleDefectReport",
+        "defectNumber":null,
+        "vehicleNumber":"9012",
+        "defectCode":"13a",
+        "vehiclePart":"A+B",
+        "heading":"Battery system / Other / APlus-1",
+        "defectText":"The electric system has shut down",
+        "reportedBy":"Carlyn Abram",
+        "defectDateTime":1350691200000,
+        "defectCause":"Wrong coupling",
+        "operation":"Maintenance team should come on site"
+    }
+]

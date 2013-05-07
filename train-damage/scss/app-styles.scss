@@ -1,0 +1,98 @@
+/* Import framework styles */
+@import "../aiq/scss/css3";
+@import "../aiq/scss/utils";
+@import "../aiq/scss/theme-variables";
+
+// Icons
+
+// Backgrounds
+
+// Cache images used on templates to prevent delays when loading
+#imageCache {
+}
+
+// Colours
+
+// Other general declarations
+.AIQ-ui-list {
+    a {
+        padding-top: 0.4em;
+    }
+}
+
+/*****************************************************************************
+* Home view
+*****************************************************************************/
+#home {
+    background-color: white;
+}
+
+/*****************************************************************************
+* Defects view
+*****************************************************************************/
+#defects-header {
+    height: auto;
+
+    @include -aiq-clearfix();
+
+    > p {
+        float: left;
+
+        color: white;
+        font-weight: bold;
+
+        margin: 1.1em 0 0 1em;
+    }
+
+    > button {
+        float: right;
+
+        padding: 0 1em;
+        margin: 0.5em 1em;
+    }
+}
+
+#defects {
+    .AIQ-ui-list {
+        a {
+            background: url('/aiq/css/assets/list-bg-default.png') repeat-x 0 0;
+            background-size: auto -aiq-em($liHeight, $liFontSize);
+
+            @include ellipsis();
+        }
+    }
+}
+
+/*****************************************************************************
+* Add defect view
+*****************************************************************************/
+#add-defect {
+    text-align: center;
+
+    > div {
+        margin: 1em;
+
+        text-align: center;
+
+        > p {
+            color: white;
+            font-weight: bold;
+
+            margin-bottom: 1em;
+        }
+    }
+
+    textarea {
+        width: 100%;
+        height: 12em;
+
+        padding: 0.5em;
+
+        // To include the padding in the size
+        @include box-sizing(border-box);
+    }
+
+    > button {
+        padding: 0 1em;
+    }
+}

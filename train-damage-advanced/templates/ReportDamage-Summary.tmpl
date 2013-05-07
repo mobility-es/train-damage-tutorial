@@ -1,0 +1,42 @@
+{{#report}}
+<header id="summary-header" class="report-damage-header">
+    <h1>Confirm damage report</h1>
+    <img src="css/assets/flag.png" />
+</header>
+
+<article id="summary-article">
+    <section>
+        <div id="wrapper-for-padding">
+            <div>
+                <label>Damage type</label><span>{{report.heading}}</span>
+            </div>
+            <div>
+                <label>Vehicle part</label><span>{{report.vehiclePart}}</span>
+            </div>
+            <div>
+                <label>Description</label>
+                <p>{{report.defectText}}</p>
+            </div>
+
+            <div>
+                <label>Pictures</label>
+                <ul id="attachments">
+                    <!-- attachments to be rendered here asynchronously -->
+                </ul>
+            </div>
+        </div>
+    </section>
+</article>
+
+<footer class="fixed">
+    <a role="finish" class="right">
+        <p>FINISH</p>
+    </a>
+</footer>
+{{/report}}
+
+{{#attachment}}
+<li>
+    <img src="{{resourceId}}"/>
+</li>
+{{/attachment}}

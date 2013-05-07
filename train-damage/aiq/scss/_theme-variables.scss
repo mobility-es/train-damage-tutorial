@@ -1,0 +1,56 @@
+/* Import framework styles */
+@import "css3";
+@import "utils";
+
+// Base font-size
+$baseline: 16px;
+
+// Icons
+$greyMagnifier: url('assets/30x24_grey_magnifier.png');
+$listArrow: url('assets/list-arrow.png');
+$rightArrow: url('assets/white-right-arrow.png');
+$rightArrowDisabled: url('assets/grey-right-arrow.png');
+$upArrow: url('assets/white-up-arrow.png');
+$upArrowDisabled: url('assets/grey-up-arrow.png');
+$downArrow: url('assets/white-down-arrow.png');
+$downArrowDisabled: url('assets/grey-down-arrow.png');
+$pen: url('assets/white-pen.png');
+$penDisabled: url('assets/grey-pen.png');
+$trash: url('assets/white-trash.png');
+$trashDisabled: url('assets/grey-trash.png');
+$cross: url('assets/white-cross.png');
+$crossDisabled: url('assets/grey-cross.png');
+$finish: url('assets/white-check.png');
+$finishDisabled: url('assets/grey-check.png');
+
+// Backgrounds
+$inputBg: url('assets/input-bg.png');
+$whiteBtnBgDefault: url('assets/white-btn-bg-default.png');
+$whiteBtnBgPressed: url('assets/white-btn-bg-pressed.png');
+$blackBtnBgDefault: url('assets/black-btn-bg-default.png');
+$blackBtnBgPressed: url('assets/black-btn-bg-pressed.png');
+$listBgDefault: url('assets/list-bg-default.png');
+$listBgPressed: url('assets/list-bg-pressed.png');
+$actionBarBtnBgDefault: url('assets/action-bar-btn-bg-default.png');
+$actionBarBtnBgPressed: url('assets/action-bar-btn-bg-pressed.png');
+
+// Colours
+$fontLightGreyColor: #999;
+$fontGreyColor: #666;
+$selectedParentBg: #f2f2f2;
+$widgetBorderColor: #ccc;
+
+// Input controls
+$inputBgHeight: -aiq-em(40px, $baseline);
+
+// Buttons
+$buttonHeight: 40px;
+$buttonIconSize: 24px;
+
+// 1 level list
+$liHeight: 40px;
+$liFontSize: 19px;
+$liArrowSize: -aiq-em(24px, $liFontSize);
+
+$footerHeight: 50px;
+$footerButtonFontSize: 12px;

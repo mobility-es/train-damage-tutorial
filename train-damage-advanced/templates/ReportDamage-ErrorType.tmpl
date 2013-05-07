@@ -1,0 +1,29 @@
+<header class="report-damage-header">
+    <h1>Select defect type</h1>
+
+    <p class="progress-bar two"></p>
+</header>
+
+<article id="error-type-article">
+    <ul class="AIQ-ui-list">
+        {{#defectCodes}}
+        <li>
+            <a {{#id}}code="{{id}}"{{/id}}>{{name}}</a>
+            <ul class="AIQ-ui-list">
+                {{#subcodes}}
+                <li class="lvl2">
+                    <a {{#id}}code="{{id}}"{{/id}}>{{name}}</a>
+                    <ul class="AIQ-ui-list">
+                        {{#subcodes}}
+                        <li class="lvl3">
+                            <a {{#id}}code="{{id}}"{{/id}}>{{name}}</a>
+                        </li>
+                        {{/subcodes}}
+                    </ul>
+                </li>
+                {{/subcodes}}
+            </ul>
+        </li>
+        {{/defectCodes}}
+    </ul>
+</article>

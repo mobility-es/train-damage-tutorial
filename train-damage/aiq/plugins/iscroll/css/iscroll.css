@@ -1,0 +1,25 @@
+.iscrolled-ancestor-article,
+.iscrolled {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left:0;
+    right: 0;
+}
+
+.iscrolled-ancestor-article.with-footer,
+.iscrolled.with-footer {
+    bottom: 3.125em;
+}
+
+.iscrolled-ancestor-article.with-header,
+.iscrolled.with-header {
+    top: 1.875em;
+}
+
+.iscrolled-higher-level-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

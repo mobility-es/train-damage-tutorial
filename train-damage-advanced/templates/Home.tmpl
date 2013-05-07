@@ -1,0 +1,25 @@
+{{#main}}
+<header id="home-header">
+    <div id="query-wrapper">
+        <div>
+            <input id="query-input" type="tel" placeholder="Search train" contenteditable="true" autocomplete="off" class="search"/>
+        </div>
+        <span>
+            <button id="select-button" class="white">Select</button>
+        </span>
+    </div>
+</header>
+<article id="home">
+    <ul class="AIQ-ui-list">
+      <!-- vehicles to be rendered here asynchronously -->
+    </ul>
+</article>
+{{/main}}
+
+{{#vehicles}}
+<li>
+  <a>
+    {{vehicleNumber}}
+  </a>
+</li>
+{{/vehicles}}

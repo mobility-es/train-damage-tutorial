@@ -1,0 +1,69 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <meta name="description" content="Example application">
+
+    <!-- Mobile viewport optimization h5bp.com/ad -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <!-- Disable auto phone numbers recognition which causes ghost clicks -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Include AIQ HTML5 framework JS -->
+    <script src="aiq/js/AIQ.js"></script>
+
+    <script>
+        // Namespace; "TD" for "Train Damage"
+        var TD = {};
+
+        getCssResources = function () {
+            // AIQ
+            var fwCssResources = [
+                "aiq/css/normalize.css",
+                "aiq/css/layout.css",
+                "aiq/css/ui.css",
+                "aiq/css/theme.css"
+            ];
+
+            // App
+            var appCssResources = [
+                "css/app-styles.css"
+            ];
+
+            return fwCssResources.concat(appCssResources);
+        };
+
+        // init application with your App's script resources
+        AIQ.init(getCssResources(),
+            [
+                // Models
+                "js/models/Train.js",
+                "js/models/Defect.js",
+
+                // Controllers
+                "js/controllers/Home.js",
+                "js/controllers/Defects.js",
+                "js/controllers/AddDefect.js"
+            ],
+            {
+                // If "mock" is true, Model documents will be those defined in mock-data.json
+                mock: true
+            });
+    </script>
+</head>
+
+<body>
+<!-- Required: #viewport container -->
+<div id="viewport">
+    <!-- Pages will dynamically be added here -->
+</div>
+
+<div id="imageCache">
+    <!-- dummy element used to load and cache CSS background images -->
+</div>
+</body>
+</html>

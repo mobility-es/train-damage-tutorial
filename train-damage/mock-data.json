@@ -1,0 +1,50 @@
+﻿[
+    {
+        "_type": "Train",
+        "number": "9010",
+        "type": "Regina",
+        "trafficSystem": "X-trafik"
+    },
+    {
+        "_type": "Train",
+        "number": "9030",
+        "type": "Regina",
+        "trafficSystem": "X-trafik"
+    },
+    {
+        "_type": "Train",
+        "number": "9011",
+        "type": "Regina",
+        "trafficSystem": "X-trafik"
+    },
+    {
+        "_type": "Train",
+        "number": "9012",
+        "type": "Regina",
+        "trafficSystem": "X-trafik"
+    },
+    {
+        "_type": "Train",
+        "number": "9013",
+        "type": "Regina",
+        "trafficSystem": "X-trafik"
+    },
+    {
+        "_type": "Train",
+        "number": "9024",
+        "type": "Regina",
+        "trafficSystem": "X-trafik"
+    },
+    {
+        "_type": "Train",
+        "number": "9015",
+        "type": "Regina",
+        "trafficSystem": "X-trafik"
+    },
+    {
+        "_type": "Train",
+        "number": "9016",
+        "type": "Regina",
+        "trafficSystem": "X-trafik"
+    }
+]
