@@ -1,15 +1,15 @@
 // Always subclass AIQ.Spine.Model for App models
-TD.Vehicle = AIQ.Spine.Model.sub();
+TD.Train = AIQ.Spine.Model.sub();
 
 // Configure Name (1:1 mapping of Document type) and attributes (Document format)
-TD.Vehicle.configure("TD.Vehicle",
-    "vehicleNumber",
-    "vehicleType"
+TD.Train.configure("TD.Train",
+    "trainNumber",
+    "trainType"
 );
 
-TD.Vehicle.extend({
+TD.Train.extend({
     comparator: function (left, right) {
-        return left.vehicleNumber - right.vehicleNumber;
+        return left.trainNumber - right.trainNumber;
     },
 
     findByAttributeSorted: function (field, value) {

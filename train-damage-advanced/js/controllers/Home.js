@@ -12,11 +12,11 @@ AIQ.Plugin.iScroll.Controller.sub({
         AIQ.Core.Display.setOrientation("portrait");
 
         // Request for older images and destroy them, if any
-        TD.VehicleDefectImage.bind("refresh", function () {
-            TD.VehicleDefectImage.unbind("refresh");
-            TD.VehicleDefectImage.cleanupOrphaned();
+        TD.TrainDefectImage.bind("refresh", function () {
+            TD.TrainDefectImage.unbind("refresh");
+            TD.TrainDefectImage.cleanupOrphaned();
         });
-        TD.VehicleDefectImage.fetch();
+        TD.TrainDefectImage.fetch();
 
         // Render view with no data
         this.renderTemplate({
@@ -25,9 +25,9 @@ AIQ.Plugin.iScroll.Controller.sub({
 
         this.initElements();
 
-        // Refreshing the list of vehicles when fetched, of changed (created, updated, deleted)
-        TD.Vehicle.bind("refresh change", this.proxy(this.renderVehicles));
-        TD.Vehicle.fetch();
+        // Refreshing the list of trains when fetched, of changed (created, updated, deleted)
+        TD.Train.bind("refresh change", this.proxy(this.renderTrains));
+        TD.Train.fetch();
     },
 
     // Initializes jQuery variables for better performance
@@ -35,12 +35,12 @@ AIQ.Plugin.iScroll.Controller.sub({
         this.$queryWrapper = this.$("#query-wrapper");
         this.$selectButton = this.$('#select-button');
         this.$queryInput = this.$("#query-input");
-        this.$vehiclesUl = this.$("ul");
+        this.$trainsUl = this.$("ul");
     },
 
     destroy: function () {
         // Unbind all Spine and AIQ bindings here
-        TD.Vehicle.unbind();
+        TD.Train.unbind();
 
         // Calling parent
         this.constructor.__super__.destroy.apply(this, arguments);
@@ -49,7 +49,7 @@ AIQ.Plugin.iScroll.Controller.sub({
     render: function (params) {
         // When re-rendering the page (such as navigating back to it), we remove any potential "selected" class
         // on list items
-        this.$vehiclesUl.find(".selected").removeClass("selected");
+        this.$trainsUl.find(".selected").removeClass("selected");
 
         // iScroll
         this.createScroller();
@@ -58,23 +58,23 @@ AIQ.Plugin.iScroll.Controller.sub({
         return this;
     },
 
-    renderVehicles: function () {
-        // Filtering vehicles by the search query
+    renderTrains: function () {
+        // Filtering trains by the search query
         var regex = new RegExp(this.queryText, "gi");
         var html = Mustache.render(this.template, {
-                vehicles: $.grep(TD.Vehicle.allSorted(), function (vehicle) {
-                    return vehicle.vehicleNumber.match(regex);
+                trains: $.grep(TD.Train.allSorted(), function (train) {
+                    return train.trainNumber.match(regex);
                 })
             });
 
-        // Inserting vehicle list markup into the DOM-tree
-        this.$vehiclesUl.html(html);
+        // Inserting train list markup into the DOM-tree
+        this.$trainsUl.html(html);
 
         // The content of the iScrolled element is changed, we need to refresh the scroller
         this.refreshScroll();
 
-        // The Select button should only be enabled if the query value matched a vehicle number
-        if (TD.Vehicle.findByAttribute("vehicleNumber", this.queryText)) {
+        // The Select button should only be enabled if the query value matched a train number
+        if (TD.Train.findByAttribute("trainNumber", this.queryText)) {
             this.$selectButton.attr("disabled", false);
         }
         else {
@@ -93,14 +93,14 @@ AIQ.Plugin.iScroll.Controller.sub({
             this.$queryWrapper.removeClass("with-select-wrapper");
         }
 
-        // We display the vehicles matching the search query
-        this.renderVehicles();
+        // We display the trains matching the search query
+        this.renderTrains();
     },
 
     clearQuery: function() {
         this.$queryInput.val("");
 
-        // To eventually update the list of vehicles
+        // To eventually update the list of trains
         this.onQueryKeyup();
     },
 
@@ -112,7 +112,7 @@ AIQ.Plugin.iScroll.Controller.sub({
         else {
             var $target = $(e.currentTarget);
             $target.addClass("selected");
-            this.selectVehicle($target.text());
+            this.selectTrain($target.text());
         }
 
     },
@@ -121,13 +121,13 @@ AIQ.Plugin.iScroll.Controller.sub({
         if (this.$queryInput.is(":focus"))
             this.$queryInput.blur();
 
-        this.selectVehicle(this.queryText);
+        this.selectTrain(this.queryText);
     },
 
-    selectVehicle: function (vehicleNumber) {
-        // Create a temporary Vehicle Damage report
+    selectTrain: function (trainNumber) {
+        // Create a temporary Train Damage report
         // to preserve user data when moving back and forth through the workflow
-        TD.MyReport = { "vehicleNumber": vehicleNumber.trim() };
+        TD.MyReport = { "trainNumber": trainNumber.trim() };
 
         // Delaying navigation slightly for "selected" class on the list item to be visible for a short moment before
         // switching to the next page

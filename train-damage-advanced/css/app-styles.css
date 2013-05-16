@@ -428,7 +428,7 @@ a[role="pick-picture"] {
   width: 33%; }
 
 /****************************************************************************
-* Report damage view (step 1 - Vehicle Part)
+* Report damage view (step 1 - Train Part)
 *****************************************************************************/
 .report-damage-header {
   height: 3.125em; }
@@ -445,10 +445,10 @@ a[role="pick-picture"] {
     margin-left: 0.6em;
     margin-bottom: 0; }
 
-#vehicle-part-article {
+#train-part-article {
   top: 3.125em;
   clear: both; }
-  #vehicle-part-article a {
+  #train-part-article a {
     padding-top: 0.4em; }
 
 /****************************************************************************

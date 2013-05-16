@@ -11,7 +11,7 @@ AIQ.Plugin.iScroll.Controller.sub({
     },
 
     init: function () {
-        TD.VehicleDefectReport.bind("refresh update", this.proxy(this.doRendering));
+        TD.TrainDefectReport.bind("refresh update", this.proxy(this.doRendering));
 
         this.renderTemplate();
 
@@ -23,20 +23,20 @@ AIQ.Plugin.iScroll.Controller.sub({
     },
 
     render: function (params) {
-        if ((params) && (params.Index !== undefined) && (params.Vehicle !== undefined)) {
-            if ((this.vehicleNumber !== undefined) && (params.Vehicle !== this.vehicleNumber)) {
+        if ((params) && (params.Index !== undefined) && (params.Train !== undefined)) {
+            if ((this.trainNumber !== undefined) && (params.Train !== this.trainNumber)) {
                 delete this.items;
             }
             this.index = parseInt(params.Index, 10);
-            this.vehicleNumber = params.Vehicle;
+            this.trainNumber = params.Train;
         }
         if (!this.items) {
             this.items = [];
         }
         if (this.items.length === 0) {
             var that = this;
-            TD.VehicleDefectReport.eachSorted(function (item) {
-                if (item.vehicleNumber === that.vehicleNumber) {
+            TD.TrainDefectReport.eachSorted(function (item) {
+                if (item.trainNumber === that.trainNumber) {
                     that.items.push(item);
                 }
             });
@@ -46,7 +46,7 @@ AIQ.Plugin.iScroll.Controller.sub({
         if (this.item) {
             this.doRendering();
         } else {
-            TD.VehicleDefectReport.fetch();
+            TD.TrainDefectReport.fetch();
         }
 
         return this;
@@ -57,9 +57,9 @@ AIQ.Plugin.iScroll.Controller.sub({
             this.items = [];
         }
         if (this.items.length === 0) {
-            this.items = TD.VehicleDefectReport.findByAttributeSorted(
-                "vehicleNumber",
-                this.vehicleNumber);
+            this.items = TD.TrainDefectReport.findByAttributeSorted(
+                "trainNumber",
+                this.trainNumber);
             if (this.index >= this.items.length) {
                 this.index = this.items.length - 1;
             }
@@ -157,4 +157,4 @@ AIQ.Plugin.iScroll.Controller.sub({
     pickTrain: function () {
         this.navigate("/");
     }
-}).registerAs("/DefectDetails/:Vehicle/:Index", 'VehicleDefectDetails.tmpl');
+}).registerAs("/DefectDetails/:Train/:Index", 'TrainDefectDetails.tmpl');

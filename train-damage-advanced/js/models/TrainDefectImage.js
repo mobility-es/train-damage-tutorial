@@ -1,15 +1,15 @@
-TD.VehicleDefectImage = AIQ.Spine.Model.sub();
+TD.TrainDefectImage = AIQ.Spine.Model.sub();
 
-TD.VehicleDefectImage.configure(
-    "TD.VehicleDefectImage",
+TD.TrainDefectImage.configure(
+    "TD.TrainDefectImage",
     "defectId",
     "creationDate");
 
-TD.VehicleDefectImage.extend({
-    docType: "TD.VehicleDefectImage"
+TD.TrainDefectImage.extend({
+    docType: "TD.TrainDefectImage"
 });
 
-TD.VehicleDefectImage.extend({
+TD.TrainDefectImage.extend({
     comparator: function(left, right) {
         return Date.parse(left.creationDate) - Date.parse(right.creationDate);
     },

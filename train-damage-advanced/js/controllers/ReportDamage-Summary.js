@@ -9,16 +9,16 @@ AIQ.Plugin.iScroll.Controller.sub({
     },
 
     init: function () {
-        TD.VehicleDefectImage.bind("refresh", this.proxy(this.renderImages));
-        TD.VehicleDefectImage.bind("update", this.proxy(this._onImageUpdated));
+        TD.TrainDefectImage.bind("refresh", this.proxy(this.renderImages));
+        TD.TrainDefectImage.bind("update", this.proxy(this._onImageUpdated));
 
-        TD.VehicleDefectReport.bind("create", this.proxy(this.onReportCreated));
+        TD.TrainDefectReport.bind("create", this.proxy(this.onReportCreated));
     },
 
     destroy: function() {
         // Unbind all Spine and AIQ bindings here
-        TD.VehicleDefectImage.unbind();
-        TD.VehicleDefectReport.unbind();
+        TD.TrainDefectImage.unbind();
+        TD.TrainDefectReport.unbind();
 
         // Calling parent
         this.constructor.__super__.destroy.apply(this, arguments);
@@ -31,7 +31,7 @@ AIQ.Plugin.iScroll.Controller.sub({
                 report: TD.MyReport
             });
 
-            TD.VehicleDefectImage.fetch();
+            TD.TrainDefectImage.fetch();
 
             this.createScroller();
 
@@ -54,7 +54,7 @@ AIQ.Plugin.iScroll.Controller.sub({
             _this.$('#attachments').append(html);
         };
 
-        var imageDocs = TD.VehicleDefectImage.getOrphanedSorted();
+        var imageDocs = TD.TrainDefectImage.getOrphanedSorted();
         for (var i = 0; i < imageDocs.length; i++) {
             AIQ.Core.DataSync.getAttachments(imageDocs[i].id, {
                 success: function (attachments) {
@@ -68,28 +68,27 @@ AIQ.Plugin.iScroll.Controller.sub({
     },
 
     onFinishClicked: function (e) {
-        //set missing Vehicle Defect fields
-        TD.MyReport.defectNumber = null;
+        //set missing Train Defect fields
         TD.MyReport.defectDateTime = new Date().getTime();
 
-        //request for AIQ context to retrieve username; create Vehicle Defect document from the temporary report object
+        //request for AIQ context to retrieve username; create Train Defect document from the temporary report object
         // Cf. https://docs.appeariq.com/display/AIQDEV/Context for documentation on the Context API
         AIQ.Core.Context.getGlobal("com.appearnetworks.aiq.user", {
             success: function (context) {
                 TD.MyReport.reportedBy = context.username;
-                new TD.VehicleDefectReport(TD.MyReport).save();
+                new TD.TrainDefectReport(TD.MyReport).save();
             },
             failure: function () {
-                new TD.VehicleDefectReport(TD.MyReport).save();
+                new TD.TrainDefectReport(TD.MyReport).save();
             }
         });
     },
 
     onReportCreated: function (reportDoc) {
-        //update image documents with actual Vehicle Defect document id
-        var images = TD.VehicleDefectImage.getOrphaned();
+        //update image documents with actual Train Defect document id
+        var images = TD.TrainDefectImage.getOrphaned();
 
-        this.initialOrphanedCount = TD.VehicleDefectImage.getOrphaned().length;
+        this.initialOrphanedCount = TD.TrainDefectImage.getOrphaned().length;
 
         for (var i = 0; i < images.length; i++) {
             images[i].updateAttribute("defectId", reportDoc.id);

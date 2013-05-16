@@ -11,7 +11,7 @@ AIQ.Spine.Controller.sub({
         // Spine controller functions, including "proxy()" */
         TD.Train.bind("refresh", this.proxy(this.render));
 
-        // We retrieve all business documents of type "Train" via Spine's Model API
+        // We retrieve all business documents of type "TD.Train" via Spine's Model API
         TD.Train.fetch();
     },
 

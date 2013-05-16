@@ -19,15 +19,15 @@ AIQ.Spine.Controller.sub({
 
     onReportNewDamage: function (e) {
         TD.MyReport = {
-            vehicleNumber: TD.MyReport.vehicleNumber
+            trainNumber: TD.MyReport.trainNumber
         };
 
-        TD.VehicleDefectImage.cleanupOrphaned();
+        TD.TrainDefectImage.cleanupOrphaned();
 
         // We call "destroy()" on all controllers to clean up JS memory and DOM
         AIQ.Spine.Controller.destroyAll();
 
-        this.navigate("/ReportDamage-VehiclePart");
+        this.navigate("/ReportDamage-TrainPart");
     },
 
     onBackHome: function (e) {

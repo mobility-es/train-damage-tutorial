@@ -33,10 +33,10 @@ AIQ.Spine.Controller.sub({
         // "delay()" is a Spine controller function combining JavaScript's "setTimeout()" with Spine's "proxy()"
         this.delay(function () {
             this.navigate("/DefectDetails",
-                this.vehicle,
+                this.train,
                 $target.closest("li").index()
             )
         }, 10);
     }
 
-}).registerAs("DefectListItem", 'VehicleDefectListItem.tmpl');
+}).registerAs("DefectListItem", 'TrainDefectListItem.tmpl');

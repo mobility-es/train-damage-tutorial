@@ -1,15 +1,14 @@
 // Always subclass AIQ.Spine.Model for App models
-TD.VehicleDefectReport = AIQ.Spine.Model.sub();
+TD.TrainDefectReport = AIQ.Spine.Model.sub();
 
 // Configure Name (1:1 mapping of Document type) and attributes (Document format)
-TD.VehicleDefectReport.configure("TD.VehicleDefectReport",
-    "defectNumber",
-    "vehicleNumber",
+TD.TrainDefectReport.configure("TD.TrainDefectReport",
+    "trainNumber",
     "level1",
     "level2",
     "level3",
     "defectCode",
-    "vehiclePart",
+    "trainPart",
     "heading",
     "defectText",
     "reportedBy",
@@ -19,7 +18,7 @@ TD.VehicleDefectReport.configure("TD.VehicleDefectReport",
 );
 
 // override default sort comparator
-TD.VehicleDefectReport.extend({
+TD.TrainDefectReport.extend({
     comparator: function(a, b) {
         return b.defectDateTime - a.defectDateTime;
     },

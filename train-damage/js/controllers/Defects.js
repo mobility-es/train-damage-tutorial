@@ -29,14 +29,14 @@ AIQ.Spine.Controller.sub({
             selectedTrain = TD.Train.find(this.trainId);
 
             // Set title in nav bar
-            AIQ.Core.App.setTitle("Train " + selectedTrain.number);
+            AIQ.Core.App.setTitle("Train " + selectedTrain.trainNumber);
 
             // See http://spinejs.com/api/models for the documentation on Spine Model functions, including "findAllByAttribute(name, value)"
-            var vehicleDefects = TD.Defect.findAllByAttribute("trainId", this.trainId);
+            var trainDefects = TD.Defect.findAllByAttribute("trainId", this.trainId);
 
             this.renderTemplate({
-                defectCount: vehicleDefects.length,
-                defects: vehicleDefects
+                defectCount: trainDefects.length,
+                defects: trainDefects
             });
         }
 

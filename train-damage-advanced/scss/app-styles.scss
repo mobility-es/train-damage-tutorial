@@ -796,7 +796,7 @@ $defectDetailsIndexAndLengthWidth: 18%;
 }
 
 /****************************************************************************
-* Report damage view (step 1 - Vehicle Part)
+* Report damage view (step 1 - Train Part)
 *****************************************************************************/
 $reportDamageHeaderHeight: 50px;
 
@@ -812,7 +812,7 @@ $reportDamageHeaderHeight: 50px;
     }
 }
 
-#vehicle-part-article {
+#train-part-article {
     top: -aiq-em($reportDamageHeaderHeight, $baseline);
 
     clear: both;

@@ -13,13 +13,13 @@ AIQ.Plugin.iScroll.Controller.sub({
     },
 
     init: function () {
-        TD.VehicleDefectImage.bind("refresh", this.proxy(this._displayImages));
-        TD.VehicleDefectImage.bind("create", this.proxy(this.onImageCreate));
+        TD.TrainDefectImage.bind("refresh", this.proxy(this._displayImages));
+        TD.TrainDefectImage.bind("create", this.proxy(this.onImageCreate));
     },
 
     destroy: function() {
         // Unbind all Spine and AIQ bindings here
-        TD.VehicleDefectImage.unbind();
+        TD.TrainDefectImage.unbind();
 
         // Calling parent
         this.constructor.__super__.destroy.apply(this, arguments);
@@ -47,7 +47,7 @@ AIQ.Plugin.iScroll.Controller.sub({
         // to render images attached to them.
         this.imageControllers = {};
 
-        TD.VehicleDefectImage.fetch();
+        TD.TrainDefectImage.fetch();
 
         this.createScroller();
 
@@ -93,11 +93,11 @@ AIQ.Plugin.iScroll.Controller.sub({
     },
 
     _getImage: function () {
-        // Pictures are attachments to a business document, TD.VehicleDefectImage in this case.
+        // Pictures are attachments to a business document, TD.TrainDefectImage in this case.
         // When the document is saved ("create" event), we'll call the bridge JavaScript API to launch:
         // - Either the native photo app (if the "TAKE PIC" button was clicked)
         // - Or the native picture library app (if the "SELECT" button was clicked)
-        new TD.VehicleDefectImage({
+        new TD.TrainDefectImage({
             defectId: null,
             creationDate: new Date().getTime()
         }).save();
@@ -142,7 +142,7 @@ AIQ.Plugin.iScroll.Controller.sub({
             }
         };
 
-        // Each "key" is actually the id of a TD.VehicleDefectImage business document
+        // Each "key" is actually the id of a TD.TrainDefectImage business document
         for (var key in this.imageControllers) {
             if (this.imageControllers.hasOwnProperty(key) && this.imageControllers[key].isSelected()) {
                 (function (index) {
@@ -225,7 +225,7 @@ AIQ.Plugin.iScroll.Controller.sub({
         this.$pictureList.empty();
 
         var that = this;
-        var images = TD.VehicleDefectImage.getOrphanedSorted();
+        var images = TD.TrainDefectImage.getOrphanedSorted();
 
         for (var i = 0; i < images.length; i++) {
             (function (index) {

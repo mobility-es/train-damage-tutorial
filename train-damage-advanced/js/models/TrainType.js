@@ -1,9 +1,9 @@
 // Always subclass AIQ.Spine.Model for App models
-TD.VehicleType = AIQ.Spine.Model.sub();
+TD.TrainType = AIQ.Spine.Model.sub();
 
 // Configure Name (1:1 mapping of Document type) and attributes (Document format)
-TD.VehicleType.configure("TD.VehicleType",
+TD.TrainType.configure("TD.TrainType",
     "name",
     "defectCodes",
-    "vehicleParts"
+    "trainParts"
 );

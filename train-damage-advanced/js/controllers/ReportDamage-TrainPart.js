@@ -1,5 +1,5 @@
 ﻿/**
- * Report damage view (step 1 - Vehicle Part selection)
+ * Report damage view (step 1 - Train Part selection)
  */
 AIQ.Plugin.iScroll.Controller.sub({
 
@@ -8,13 +8,13 @@ AIQ.Plugin.iScroll.Controller.sub({
     },
 
     init: function () {
-        TD.VehicleType.bind("refresh change", this.proxy(this.render));
-        TD.VehicleType.fetch();
+        TD.TrainType.bind("refresh change", this.proxy(this.render));
+        TD.TrainType.fetch();
     },
 
     destroy: function() {
         // Unbind all Spine and AIQ bindings here
-        TD.VehicleType.unbind();
+        TD.TrainType.unbind();
 
         // Calling parent
         this.constructor.__super__.destroy.apply(this, arguments);
@@ -23,16 +23,16 @@ AIQ.Plugin.iScroll.Controller.sub({
     render: function (params) {
         // Retrieving the temporary report
         if (TD.MyReport) {
-            AIQ.Core.App.setTitle("Train " + TD.MyReport.vehicleNumber);
+            AIQ.Core.App.setTitle("Train " + TD.MyReport.trainNumber);
 
-            var vehicle = TD.Vehicle.findByAttribute("vehicleNumber", TD.MyReport.vehicleNumber);
-            if (vehicle) {
-                // Finding the corresponding Vehicle Type
-                var vehicleType = TD.VehicleType.findByAttribute("name", vehicle.vehicleType);
+            var train = TD.Train.findByAttribute("trainNumber", TD.MyReport.trainNumber);
+            if (train) {
+                // Finding the corresponding Train Type
+                var trainType = TD.TrainType.findByAttribute("name", train.trainType);
 
-                // Sorting the Vehicle Parts
-                if (vehicleType) {
-                    this.sortedVehicleParts = vehicleType.vehicleParts.sort(
+                // Sorting the Train Parts
+                if (trainType) {
+                    this.sortedTrainParts = trainType.trainParts.sort(
                         function (a, b) {
                             return a.name.localeCompare(b.name);
                         }
@@ -41,7 +41,7 @@ AIQ.Plugin.iScroll.Controller.sub({
             }
 
             this.renderTemplate({
-                vehicleParts: this.sortedVehicleParts
+                trainParts: this.sortedTrainParts
             });
 
             // We reset the selected state
@@ -62,7 +62,7 @@ AIQ.Plugin.iScroll.Controller.sub({
         var $target = $(e.currentTarget);
         $target.addClass("selected");
 
-        TD.MyReport["vehiclePart"] = $target.text().trim();
+        TD.MyReport["trainPart"] = $target.text().trim();
 
         // Delaying navigation slightly for "selected" class on the list item to be visible for a short moment before
         // switching to the next page
@@ -71,4 +71,4 @@ AIQ.Plugin.iScroll.Controller.sub({
         }, 10);
     }
 
-}).registerAs("/ReportDamage-VehiclePart", 'ReportDamage-VehiclePart.tmpl');
+}).registerAs("/ReportDamage-TrainPart", 'ReportDamage-TrainPart.tmpl');

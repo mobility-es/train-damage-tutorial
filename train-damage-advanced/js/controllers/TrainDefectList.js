@@ -5,13 +5,13 @@ AIQ.Plugin.iScroll.Controller.sub({
     },
 
     init: function () {
-        TD.VehicleDefectReport.bind("refresh change", this.proxy(this.render));
-        TD.VehicleDefectReport.fetch();
+        TD.TrainDefectReport.bind("refresh change", this.proxy(this.render));
+        TD.TrainDefectReport.fetch();
     },
 
     destroy: function() {
         // Unbind all Spine and AIQ bindings here
-        TD.VehicleDefectReport.unbind();
+        TD.TrainDefectReport.unbind();
 
         // Calling parent
         this.constructor.__super__.destroy.apply(this, arguments);
@@ -20,9 +20,9 @@ AIQ.Plugin.iScroll.Controller.sub({
     render: function (params) {
         //retrieve temporary report containing user data
         if (TD.MyReport) {
-            AIQ.Core.App.setTitle("Train " + TD.MyReport.vehicleNumber);
+            AIQ.Core.App.setTitle("Train " + TD.MyReport.trainNumber);
 
-            var items = TD.VehicleDefectReport.findByAttributeSorted("vehicleNumber", TD.MyReport.vehicleNumber);
+            var items = TD.TrainDefectReport.findByAttributeSorted("trainNumber", TD.MyReport.trainNumber);
 
             this.renderTemplate({ damageNumber: items.length });
 
@@ -32,7 +32,7 @@ AIQ.Plugin.iScroll.Controller.sub({
             for (var i = 0; i < items.length; i++) {
                 AIQ.Spine.Controller.fromRoute("DefectListItem", {
                     item: items[i],
-                    vehicle: TD.MyReport.vehicleNumber
+                    train: TD.MyReport.trainNumber
                 }).render().appendTo(list);
             }
 
@@ -59,12 +59,12 @@ AIQ.Plugin.iScroll.Controller.sub({
 
     reportDamage: function () {
         // Destroying older image docs
-        TD.VehicleDefectImage.cleanupOrphaned();
+        TD.TrainDefectImage.cleanupOrphaned();
 
-        // Resetting temporary Vehicle Damage report
-        TD.MyReport = { "vehicleNumber": TD.MyReport.vehicleNumber };
+        // Resetting temporary Train Damage report
+        TD.MyReport = { "trainNumber": TD.MyReport.trainNumber };
 
-        this.navigate("/ReportDamage-VehiclePart");
+        this.navigate("/ReportDamage-TrainPart");
     }
 
-}).registerAs("/DefectList", 'VehicleDefectList.tmpl');
+}).registerAs("/DefectList", 'TrainDefectList.tmpl');

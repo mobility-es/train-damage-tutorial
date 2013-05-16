@@ -8,12 +8,12 @@ AIQ.Plugin.iScroll.Controller.sub({
     },
 
     init: function () {
-        TD.VehicleType.bind("change", this.proxy(this.render));
+        TD.TrainType.bind("change", this.proxy(this.render));
     },
 
     destroy: function () {
         // Unbind all Spine and AIQ bindings here
-        TD.VehicleType.unbind();
+        TD.TrainType.unbind();
 
         // Calling parent
         this.constructor.__super__.destroy.apply(this, arguments);
@@ -22,13 +22,13 @@ AIQ.Plugin.iScroll.Controller.sub({
     render: function (params) {
         // Retrieving the temporary report
         if (TD.MyReport) {
-            var vehicle = TD.Vehicle.findByAttribute("vehicleNumber", TD.MyReport.vehicleNumber);
+            var train = TD.Train.findByAttribute("trainNumber", TD.MyReport.trainNumber);
             var defectCodes = [];
-            if (vehicle) {
-                var vehicleType = TD.VehicleType.findByAttribute("name", vehicle.vehicleType);
+            if (train) {
+                var trainType = TD.TrainType.findByAttribute("name", train.trainType);
 
                 //get list of Defect Types
-                defectCodes = this.normalizeCodes(vehicleType.defectCodes);
+                defectCodes = this.normalizeCodes(trainType.defectCodes);
             }
 
             // Rendering the list

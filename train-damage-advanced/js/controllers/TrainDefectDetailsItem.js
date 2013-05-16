@@ -26,4 +26,4 @@ AIQ.Spine.Controller.sub({
         return this;
     }
 
-}).registerAs("detailsItem", "VehicleDefectDetailsItem.tmpl");
+}).registerAs("detailsItem", "TrainDefectDetailsItem.tmpl");
