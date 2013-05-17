@@ -1,0 +1,6 @@
+[submodule "train-damage/aiq"]
+	path = train-damage/aiq
+	url = git@github.com:appear/html5-app-framework.git
+[submodule "train-damage-advanced/aiq"]
+	path = train-damage-advanced/aiq
+	url = git@github.com:appear/html5-app-framework.git
