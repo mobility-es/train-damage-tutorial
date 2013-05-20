@@ -1,8 +1,4 @@
 AIQ.Spine.Controller.sub({
-    events: {
-        "click a": "_onListItemClicked"
-    },
-
     // "init()" is called the first time the controller is executed
     init: function () {
         // Fetching model instances is asynchronous. The "refresh" event is fired on the Model class when fetch completes.
@@ -31,20 +27,5 @@ AIQ.Spine.Controller.sub({
 
         // If we don't navigate to another page, we should always end this render function with "return this"
         return this;
-    },
-
-    // Functions mapped to events come with the event "e" as parameter
-    _onListItemClicked: function(e) {
-        // We get the DOM element which was clicked. Using the "this.$()" jQuery selector instead of simply "$()"
-        // limits the scope of search to the current page, therefore is higher performance for accessing DOM elements
-        // located inside the current page (which is what you'll want to do 99% of the time)
-        var $target = this.$(e.currentTarget);
-
-        var trainId = $target.data("id");
-
-        // Function "this.navigate()" takes at least 1 argument: the URL of the page to navigate. Subsequent arguments
-        // will be added to the URL, separated by slashes, and therefore will be defined in the target controller's
-        // "registerAs()" function. See it for Defects.js for example.
-        this.navigate("/defects", trainId);
     }
 }).registerAs("/", "Home.tmpl");
