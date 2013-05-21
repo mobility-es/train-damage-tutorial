@@ -4,13 +4,13 @@ AIQ.Spine.Controller.sub({
     },
 
     init: function () {
-        TD.Defect.bind("refresh", this.proxy(this.render));
-        TD.Defect.fetch();
+        TD.Damage.bind("refresh create", this.proxy(this.render));
+        TD.Damage.fetch();
     },
 
     destroy: function() {
         // Unbind all Spine and AIQ bindings here
-        TD.Defect.unbind();
+        TD.Damage.unbind();
 
         // Calling parent
         this.constructor.__super__.destroy.apply(this, arguments);
@@ -32,11 +32,11 @@ AIQ.Spine.Controller.sub({
             AIQ.Core.App.setTitle("Train " + selectedTrain.trainNumber);
 
             // See http://spinejs.com/api/models for the documentation on Spine Model functions, including "findAllByAttribute(name, value)"
-            var trainDefects = TD.Defect.findAllByAttribute("trainId", this.trainId);
+            var trainDamages = TD.Damage.findAllByAttribute("trainId", this.trainId);
 
             this.renderTemplate({
-                defectCount: trainDefects.length,
-                defects: trainDefects
+                damageCount: trainDamages.length,
+                damages: trainDamages
             });
         }
 
@@ -45,6 +45,6 @@ AIQ.Spine.Controller.sub({
     },
 
     _onAddClicked: function(e) {
-        this.navigate("/add-defect", this.trainId);
+        this.navigate("/add-damage", this.trainId);
     }
-}).registerAs("/defects/:trainId", "Defects.tmpl");
+}).registerAs("/damages/:trainId", "Damages.tmpl");

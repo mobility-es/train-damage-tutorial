@@ -12,61 +12,24 @@
 }
 
 /*****************************************************************************
-* Defects view
+* Add damage view
 *****************************************************************************/
-#defects-header {
-    height: auto;
-}
-
-#defects-header:before, #defects-header:after {
-    content: "";
-    display: table;
-}
-
-#defects-header:after {
-    clear: both;
-}
-
-#defects-header > p {
-    float: left;
-    color: white;
-    font-weight: bold;
-    margin: 1.1em 0 0 1em;
-}
-
-#defects-header > button {
-    float: right;
-    padding: 0 1em;
-    margin: 0.5em 1em;
-}
-
-#defects .AIQ-ui-list a {
-    background: url("/aiq/css/assets/list-bg-default.png") repeat-x 0 0;
-    background-size: auto 2.10526em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/*****************************************************************************
-* Add defect view
-*****************************************************************************/
-#add-defect {
+#add-damage {
     text-align: center;
 }
 
-#add-defect > div {
+#add-damage > div {
     margin: 1em;
     text-align: center;
 }
 
-#add-defect > div > p {
+#add-damage h1 {
     color: white;
-    font-weight: bold;
+    font-size: 1em;
     margin-bottom: 1em;
 }
 
-#add-defect textarea {
+#add-damage textarea {
     width: 100%;
     height: 12em;
     padding: 0.5em;
@@ -75,6 +38,43 @@
     box-sizing: border-box;
 }
 
-#add-defect > button {
+#add-damage > button {
     padding: 0 1em;
+}
+
+/*****************************************************************************
+* Damages view
+*****************************************************************************/
+#damages-header {
+    height: auto;
+}
+
+#damages-header:before, #damages-header:after {
+    content: "";
+    display: table;
+}
+
+#damages-header:after {
+    clear: both;
+}
+
+#damages-header > p {
+    float: left;
+    color: white;
+    font-weight: bold;
+    margin: 1.1em 0 0 1em;
+}
+
+#damages-header > button {
+    float: right;
+    padding: 0 1em;
+    margin: 0.5em 1em;
+}
+
+#damages .AIQ-ui-list a {
+    background: url("/aiq/css/assets/list-bg-default.png") repeat-x 0 0;
+    background-size: auto 2.10526em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

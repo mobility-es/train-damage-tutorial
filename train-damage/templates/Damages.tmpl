@@ -1,13 +1,14 @@
-<header id="defects-header">
-    <p>{{defectCount}} defect(s)</p>
+<header id="damages-header">
+    <p>{{damageCount}} damage(s)</p>
     <button class="black">Add</button>
 </header>
-<article id="defects">
+
+<article id="damages">
     <ul class="AIQ-ui-list">
-        {{#defects}}
+        {{#damages}}
         <li>
             <a>{{description}}</a>
         </li>
-        {{/defects}}
+        {{/damages}}
     </ul>
 </article>

@@ -13,41 +13,33 @@
     <!-- Disable auto phone numbers recognition which causes ghost clicks -->
     <meta name="format-detection" content="telephone=no" />
 
+    <!-- Framework styles -->
+    <link rel="stylesheet" href="aiq/css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="aiq/css/layout.css" type="text/css" />
+    <link rel="stylesheet" href="aiq/css/ui.css" type="text/css" />
+    <link rel="stylesheet" href="aiq/css/theme.css" type="text/css" />
+
+    <!-- App styles -->
+    <link rel="stylesheet" href="css/app-styles.css" type="text/css" />
+
     <!-- Include AIQ HTML5 framework JS -->
     <script src="aiq/js/AIQ.js"></script>
 
     <script>
-        // Namespace; "TD" for "Train Damage"
+        // App namespace; "TD" for "Train Damage"
         var TD = {};
 
-        getCssResources = function () {
-            // AIQ
-            var fwCssResources = [
-                "aiq/css/normalize.css",
-                "aiq/css/layout.css",
-                "aiq/css/ui.css",
-                "aiq/css/theme.css"
-            ];
-
-            // App
-            var appCssResources = [
-                "css/app-styles.css"
-            ];
-
-            return fwCssResources.concat(appCssResources);
-        };
-
         // init application with your App's script resources
-        AIQ.init(getCssResources(),
+        AIQ.init({},
             [
                 // Models
                 "js/models/Train.js",
-                "js/models/Defect.js",
+                "js/models/Damage.js",
 
                 // Controllers
                 "js/controllers/Home.js",
-                "js/controllers/Defects.js",
-                "js/controllers/AddDefect.js"
+                "js/controllers/Damages.js",
+                "js/controllers/AddDamage.js"
             ],
             {
                 // If "mock" is true, Model documents will be those defined in mock-data.json

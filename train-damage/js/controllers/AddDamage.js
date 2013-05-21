@@ -3,16 +3,6 @@ AIQ.Spine.Controller.sub({
         "click button": "_onSaveClicked"
     },
 
-    init: function () {
-    },
-
-    destroy: function() {
-        // Unbind all Spine and AIQ bindings here
-
-        // Calling parent
-        this.constructor.__super__.destroy.apply(this, arguments);
-    },
-
     render: function (params) {
         if (params !== undefined && params.trainId !== undefined) {
             this.trainId = params.trainId;
@@ -27,19 +17,19 @@ AIQ.Spine.Controller.sub({
     },
 
     _onSaveClicked: function(e) {
-        var newDefect = new TD.Defect({
+        var newDamage = new TD.Damage({
             trainId: this.trainId,
             description: this.$("textarea").val()
         });
 
         // Persisting the new defect in the Data-sync layer. Since it's a new defect, "save()" will create it.
         // Had it been an existing defect, "save()" would have updated it.
-        newDefect.save();
+        newDamage.save();
 
         // Synchronizing with the platform
         AIQ.Core.DataSync.synchronize();
 
-        // Navigating back to the list of defects
+        // Navigating back to the list of damages
         this.navigateBack();
     }
-}).registerAs("/add-defect/:trainId", "AddDefect.tmpl");
+}).registerAs("/add-damage/:trainId", "AddDamage.tmpl");
