@@ -1,4 +1,4 @@
-AIQ8-Mobile-HTML5-Samples
-=========================
+train-damage-tutorial
+=====================
 
-Sample mobile HTML5 applications for AIQ8 
+Step by step tutorial of how to develop an application based on Appear IQ HTML5 application framework. 
