@@ -1,42 +1,42 @@
 ﻿[
     {
-        "_type": "TD.Train",
-        "trainNumber": "9001",
-        "trainType": "X2000"
+        "_type": "_backendcontext",
+        "com.appearnetworks.aiq.user": {
+            "username": "jdo",
+            "fullName": "John Doe",
+            "email": "jdo@example.org"
+        }
     },
     {
         "_type": "TD.Train",
-        "trainNumber": "9002",
-        "trainType": "X2000"
+        "number": "9001"
     },
     {
         "_type": "TD.Train",
-        "trainNumber": "9003",
-        "trainType": "X2000"
+        "number": "9002"
     },
     {
         "_type": "TD.Train",
-        "trainNumber": "9004",
-        "trainType": "X2000"
+        "number": "9003"
     },
     {
         "_type": "TD.Train",
-        "trainNumber": "9005",
-        "trainType": "X2000"
+        "number": "9004"
     },
     {
         "_type": "TD.Train",
-        "trainNumber": "9006",
-        "trainType": "X2000"
+        "number": "9005"
     },
     {
         "_type": "TD.Train",
-        "trainNumber": "9007",
-        "trainType": "X2000"
+        "number": "9006"
     },
     {
         "_type": "TD.Train",
-        "trainNumber": "9008",
-        "trainType": "X2000"
+        "number": "9007"
+    },
+    {
+        "_type": "TD.Train",
+        "number": "9008"
     }
 ]
