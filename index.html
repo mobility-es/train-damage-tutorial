@@ -29,22 +29,12 @@
         // App namespace; "TD" for "Train Damage"
         var TD = {};
 
-        // init application with your App's script resources
+        // init application with your App's resources
         AIQ.init({},
-            [
-                // Models
-                "js/models/Train.js",
-                "js/models/Damage.js",
-
-                // Controllers
-                "js/controllers/Home.js",
-                "js/controllers/Damages.js",
-                "js/controllers/AddDamage.js"
-            ],
-            {
-                // If "mock" is true, Model documents will be those defined in mock-data.json
-                mock: true
-            });
+                [
+                    "js/controllers/Home.js"
+                ]
+        );
     </script>
 </head>
 
