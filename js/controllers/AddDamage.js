@@ -17,13 +17,15 @@ AIQ.Spine.Controller.sub({
     },
 
     _onSaveClicked: function(e) {
+        var _this = this;
+
         // Request for AIQ context to retrieve username
         // Cf. https://docs.appeariq.com/display/AIQDEV/Context for documentation on the Context API
         AIQ.Core.Context.getGlobal("com.appearnetworks.aiq.user", {
             success: function (context) {
                 var newDamage = new TD.DamageReport({
-                    trainId: this.trainId,
-                    description: this.$("textarea").val(),
+                    trainId: _this.trainId,
+                    description: _this.$("textarea").val(),
                     creationDateTime: new Date().getTime(),
                     reportedBy: context.username
                 });
