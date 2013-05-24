@@ -24,8 +24,8 @@ AIQ.Spine.Controller.sub({
                 var newDamage = new TD.DamageReport({
                     trainId: this.trainId,
                     description: this.$("textarea").val(),
-                    reportedBy: context.username,
-                    creationDateTime: new Date().getTime()
+                    creationDateTime: new Date().getTime(),
+                    reportedBy: context.username
                 });
 
                 // Persisting the new defect in the Data-sync layer. Since it's a new defect, "save()" will create it.
