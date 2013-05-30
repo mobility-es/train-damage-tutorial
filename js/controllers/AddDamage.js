@@ -1,4 +1,4 @@
-AIQ.Spine.Controller.sub({
+AIQ.app.controller.sub({
     events: {
         "click button": "_onSaveClicked"
     },
@@ -21,7 +21,7 @@ AIQ.Spine.Controller.sub({
 
         // Request for AIQ context to retrieve username
         // Cf. https://docs.appeariq.com/display/AIQDEV/Context for documentation on the Context API
-        AIQ.Core.Context.getGlobal("com.appearnetworks.aiq.user", {
+        AIQ.context.getGlobal("com.appearnetworks.aiq.user", {
             success: function (context) {
                 var newDamage = new TD.DamageReport({
                     trainId: _this.trainId,
@@ -35,7 +35,7 @@ AIQ.Spine.Controller.sub({
                 newDamage.save();
 
                 // Synchronizing with the platform
-                AIQ.Core.DataSync.synchronize();
+                AIQ.datasync.synchronize();
 
                 // Navigating back to the list of damages
                 _this.navigateBack();

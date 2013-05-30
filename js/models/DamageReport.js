@@ -1,4 +1,4 @@
-TD.DamageReport = AIQ.Spine.Model.sub();
+TD.DamageReport = AIQ.app.model.sub();
 
 TD.DamageReport.configure("TD.DamageReport",
     "trainId",

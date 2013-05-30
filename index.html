@@ -23,6 +23,9 @@
     <!-- App styles -->
     <link rel="stylesheet" href="css/app-styles.css" type="text/css" />
 
+    <!-- Include Core API -->
+    <script src="aiq/aiq-api.js"></script>
+
     <!-- Include AIQ HTML5 framework JS -->
     <script src="aiq/js/AIQ.js"></script>
 
@@ -31,7 +34,7 @@
         var TD = {};
 
         // init application with your App's script resources
-        AIQ.init({},
+        AIQ.app.bootstrap.init({},
             [
                 // Models
                 "js/models/Train.js",
@@ -41,11 +44,7 @@
                 "js/controllers/Home.js",
                 "js/controllers/Damages.js",
                 "js/controllers/AddDamage.js"
-            ],
-            {
-                // If "mock" is true, Model documents will be those defined in mock-data.json
-                mock: true
-            });
+            ]);
     </script>
 </head>
 

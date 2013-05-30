@@ -1,4 +1,4 @@
-AIQ.Spine.Controller.sub({
+AIQ.app.controller.sub({
     events: {
         "click a": "_onListItemClicked"
     },
