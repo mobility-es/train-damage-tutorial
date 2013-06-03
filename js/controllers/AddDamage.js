@@ -1,4 +1,4 @@
-AIQ.Spine.Controller.sub({
+aiq.app.Controller.sub({
     init: function () {
     },
 

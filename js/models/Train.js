@@ -1,5 +1,5 @@
-// To create models based on AIQ's Data-sync, we extend "AIQ.Spine.Model"
-TD.Train = AIQ.Spine.Model.sub();
+// To create models based on AIQ's Data-sync, we extend "aiq.app.Model"
+TD.Train = aiq.app.Model.sub();
 
 // As indicated in the Spine Model documentation (http://spinejs.com/docs/models), Models are written by an empty "sub()"
 // Followed by a call to "configure()".

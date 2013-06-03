@@ -1,4 +1,4 @@
-AIQ.Spine.Controller.sub({
+aiq.app.Controller.sub({
     events: {
         "click a": "_onListItemClicked"
     },
@@ -44,7 +44,7 @@ AIQ.Spine.Controller.sub({
 
         // Function "this.navigate()" takes at least 1 argument: the URL of the page to navigate. Subsequent arguments
         // will be added to the URL, separated by slashes, and therefore will be defined in the target controller's
-        // "registerAs()" function. See it for Defects.js for example.
+        // "registerAs()" function. See it for AddDamage.js for example.
         this.navigate("/add-damage", trainId);
     }
 }).registerAs("/", "Home.tmpl");
