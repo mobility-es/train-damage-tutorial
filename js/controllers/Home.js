@@ -1,4 +1,4 @@
-AIQ.Spine.Controller.sub({
+aiq.app.Controller.sub({
     // "init()" is called the first time the controller is executed
     init: function () {
     },

@@ -12,30 +12,32 @@
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 
     <!-- Disable auto phone numbers recognition which causes ghost clicks -->
-    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="telephone=no"/>
 
     <!-- Framework styles -->
-    <link rel="stylesheet" href="aiq/css/normalize.css" type="text/css" />
-    <link rel="stylesheet" href="aiq/css/layout.css" type="text/css" />
-    <link rel="stylesheet" href="aiq/css/ui.css" type="text/css" />
-    <link rel="stylesheet" href="aiq/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="aiq/main.css" type="text/css"/>
 
     <!-- App styles -->
-    <link rel="stylesheet" href="css/app-styles.css" type="text/css" />
+    <link rel="stylesheet" href="css/app-styles.css" type="text/css"/>
+
+    <!-- Include Core API -->
+    <script src="aiq/aiq-api.js"></script>
 
     <!-- Include AIQ HTML5 framework JS -->
-    <script src="aiq/js/AIQ.js"></script>
+    <script src="aiq/aiq-framework.js"></script>
 
     <script>
         // App namespace; "TD" for "Train Damage"
         var TD = {};
+    </script>
 
-        // init application with your App's resources
-        AIQ.init({},
-            [
-                "js/controllers/Home.js"
-            ]
-        );
+    <!-- App JavaScripts -->
+    <!-- Controllers -->
+    <script src="js/controllers/Home.js"></script>
+
+    <script>
+        // init application
+        aiq.app.bootstrap();
     </script>
 </head>
 
