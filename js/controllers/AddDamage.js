@@ -21,7 +21,7 @@ AIQ.Spine.Controller.sub({
 
         // Request for AIQ context to retrieve username
         // Cf. https://docs.appeariq.com/display/AIQDEV/Context for documentation on the Context API
-        AIQ.Core.Context.getGlobal("com.appearnetworks.aiq.user", {
+        aiq.context.getGlobal("com.appearnetworks.aiq.user", {
             success: function (context) {
                 var newDamage = new TD.DamageReport({
                     trainId: _this.trainId,
@@ -38,7 +38,7 @@ AIQ.Spine.Controller.sub({
                 console.log(TD.DamageReport.all());
 
                 // Synchronizing with the platform
-                AIQ.Core.DataSync.synchronize();
+                aiq.datasync.synchronize();
             },
             failure: function () {
                 throw("Error while reading the logged-in user from global context");
