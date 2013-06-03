@@ -1,13 +1,5 @@
 ﻿[
     {
-        "_type": "_backendcontext",
-        "com.appearnetworks.aiq.user": {
-            "username": "jdo",
-            "fullName": "John Doe",
-            "email": "jdo@example.org"
-        }
-    },
-    {
         "_type": "TD.Train",
         "number": "9001"
     },
