@@ -1,4 +1,4 @@
-AIQ.app.controller.sub({
+aiq.app.Controller.sub({
     events: {
         "click a": "_onListItemClicked"
     },

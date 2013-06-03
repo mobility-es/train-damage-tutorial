@@ -1,4 +1,4 @@
-AIQ.app.controller.sub({
+aiq.app.Controller.sub({
     events: {
         "click button": "_onAddClicked"
     },
@@ -29,7 +29,7 @@ AIQ.app.controller.sub({
             selectedTrain = TD.Train.find(this.trainId);
 
             // Set title in nav bar
-            AIQ.client.setAppTitle("Train " + selectedTrain.number);
+            aiq.client.setAppTitle("Train " + selectedTrain.number);
 
             // See http://spinejs.com/api/models for the documentation on Spine Model functions, including "findAllByAttribute(name, value)"
             var trainDamages = TD.DamageReport.findAllByAttribute("trainId", this.trainId);
