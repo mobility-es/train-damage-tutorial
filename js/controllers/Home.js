@@ -1,4 +1,4 @@
-AIQ.Spine.Controller.sub({
+aiq.app.Controller.sub({
     // "init()" is called the first time the controller is executed
     init: function () {
         // Fetching model instances is asynchronous. The "refresh" event is fired on the Model class when fetch completes.
