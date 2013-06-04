@@ -1,10 +1,9 @@
-﻿[
-    {
-        "_type": "_backendcontext",
+{
+    "backend": {
         "com.appearnetworks.aiq.user": {
             "username": "jdo",
             "fullName": "John Doe",
             "email": "jdo@example.org"
         }
     }
-]
+}
