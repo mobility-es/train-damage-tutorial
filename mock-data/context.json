@@ -1,5 +1,5 @@
 {
-    "backend": {
+    "global": {
         "com.appearnetworks.aiq.user": {
             "username": "jdo",
             "fullName": "John Doe",
