@@ -10,4 +10,4 @@ The contents should then look like this:
 	¦   +-- scss    // Sass mixins and variables you may find useful when developing your application
 	¦   +-- framework.css
 	¦   +-- framework.js
-	+-- api.js
+	+-- aiq-api.js
