@@ -89,7 +89,7 @@
 #damages {
     .AIQ-ui-list {
         a {
-            background: url('/aiq/css/assets/list-bg-default.png') repeat-x 0 0;
+            background: url('../aiq/app/images/list-bg-default.png') repeat-x 0 0;
             background-size: auto -aiq-em($liHeight, $liFontSize);
 
             @include ellipsis();
