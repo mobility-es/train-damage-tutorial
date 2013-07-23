@@ -6,7 +6,7 @@ This tutorial shows how a webapp for reporting damage on a train can be implemen
 This tutorial is divided into five steps. Each step final code is maintained in a separate branch.
   1. Master - Initialization using the boilerplate app.
   2. Stage2 - Using DataSync to fetch a list of business documents (trains) and listing them in the home view
-  3. Stage3 - Adding a second view to the application and navigating to it when clicking on a train in the home view
+  **3. Stage3 - Adding a second view to the application and navigating to it when clicking on a train in the home view**
   4. Stage4 - Creating a new business document (train damage report) and saving it via Datasync
   5. Stage5 - Finishing the Train Damage app by listing the damage reports for the selected train
 
