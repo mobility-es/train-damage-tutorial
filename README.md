@@ -1,7 +1,7 @@
 #Train Damage App 
 A simple AIQ app for reporting damages on trains.
 
-This is the final code of the step by step tutorial of how to develop applications based on Appear IQ HTML5 App Framework.
+This is the final code of the step-by-step tutorial of how to develop applications based on Appear IQ HTML5 App Framework.
 
 **Applies To**
 
