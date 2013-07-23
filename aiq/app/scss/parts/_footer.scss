@@ -1,0 +1,69 @@
+$buttonIconSize: 24px;
+
+footer {
+    @include -aiq-clearfix();
+
+    > a[role] {
+        $fontColor: white;
+
+        font-size: -aiq-em($footerButtonFontSize, $baseline);
+        text-align: center;
+        color: $fontColor;
+
+        // Border
+        $borderWidth: 1px;
+        border-top: $borderWidth solid #505050;
+        border-bottom: $borderWidth solid #1E1E1E;
+        border-right: $borderWidth solid #303030;
+
+        background-repeat: no-repeat, repeat-x;
+        background-size: -aiq-em($buttonIconSize, $footerButtonFontSize), auto -aiq-em($footerHeight - 2*$borderWidth, $footerButtonFontSize);
+        background-position: center 0.25em, 0 0;
+
+        width: 25%;
+        height: -aiq-em($footerHeight, $footerButtonFontSize);
+
+        &:hover,
+        &:active {
+            color: $fontColor;
+        }
+
+        &.without-top-icon {
+            background-repeat: repeat-x;
+            background-size: auto -aiq-em($footerHeight - 2*$borderWidth, $footerButtonFontSize);
+            background-position: 0 0;
+            background-image: $actionBarBtnBgDefault;
+
+            &:active,
+            &.active {
+                background-image: $actionBarBtnBgPressed;
+
+                &.disabled {
+                    background-image: $actionBarBtnBgDefault;
+                }
+            }
+
+            > p {
+                margin-top: 1.4em;
+            }
+        }
+
+        // To include the padding and border in the size
+        @include box-sizing(border-box);
+
+        float: left;
+
+        &.right {
+            float: right;
+        }
+
+        &.disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        > p {
+            margin-top: 2.5em;
+        }
+    }
+}
