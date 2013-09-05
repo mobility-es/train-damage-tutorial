@@ -1,0 +1,126 @@
+/* Import framework styles */
+@import "../aiq/app/scss/mixins/css3";
+@import "../aiq/app/scss/mixins/utils";
+@import "../aiq/app/scss/variables";
+
+// Icons
+
+// Backgrounds
+
+// Cache images used on templates to prevent delays when loading
+#imageCache {
+}
+
+// Colours
+
+// Other general declarations
+.AIQ-ui-list {
+    a {
+        padding-top: 0.4em;
+    }
+}
+
+/*****************************************************************************
+* Home view
+*****************************************************************************/
+#home {
+    background-color: white;
+}
+
+/*****************************************************************************
+* Add damage view
+*****************************************************************************/
+#add-damage {
+    text-align: center;
+
+    > div {
+        margin: 1em;
+
+        text-align: center;
+    }
+
+    h1 {
+        color: white;
+        font-size: 1em;
+
+        margin-bottom: 1em;
+    }
+
+    textarea {
+        width: 100%;
+        height: 12em;
+
+        padding: 0.5em;
+
+        /* To include the padding in the size */
+        @include box-sizing(border-box);
+    }
+
+    > button {
+        padding: 0 1em;
+    }
+}
+
+/*****************************************************************************
+* Damages view
+*****************************************************************************/
+$headerHeight: 3.5em;
+
+#damages-header {
+    /*  Fixed header CSS declarations for Chrome and Android
+        Without fixed header, use "height: auto" */
+    height: $headerHeight;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+
+    background: url('../aiq/app/images/background-grey.png') no-repeat;
+    background-size: cover;
+
+    @include -aiq-clearfix();
+
+    > p {
+        float: left;
+
+        color: white;
+        font-weight: bold;
+
+        margin: 1.1em 0 0 1em;
+    }
+
+    > button {
+        float: right;
+
+        padding: 0 1em;
+        margin: 0.5em 1em;
+    }
+}
+
+#damages {
+    /* Fixed header CSS declaration for Chrome and Android */
+    margin-top: $headerHeight;
+
+    .AIQ-ui-list {
+        a {
+            background: url('../aiq/app/images/list-bg-default.png') repeat-x 0 0;
+            background-size: auto -aiq-em($liHeight, $liFontSize);
+
+            @include ellipsis();
+        }
+    }
+}
+
+.iOS {
+    #damages-header {
+        position: absolute;
+    }
+
+    #damages {
+        margin-top: 0;
+
+        position: absolute;
+        top: $headerHeight;
+        overflow: scroll;
+    }
+}

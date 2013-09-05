@@ -32,9 +32,15 @@
     </script>
 
     <!-- App JavaScripts -->
+    <!-- Models -->
+    <script src="js/models/Train.js"></script>
+    <script src="js/models/DamageReport.js"></script>
+    
     <!-- Controllers -->
     <script src="js/controllers/Home.js"></script>
-
+    <script src="js/controllers/Damages.js"></script>
+    <script src="js/controllers/AddDamage.js"></script>
+    
     <script>
         // init application
         aiq.app.bootstrap();
@@ -45,6 +51,10 @@
 <!-- Required: #viewport container -->
 <div id="viewport">
     <!-- Pages will dynamically be added here -->
+</div>
+
+<div id="imageCache">
+    <!-- dummy element used to load and cache CSS background images -->
 </div>
 </body>
 </html>

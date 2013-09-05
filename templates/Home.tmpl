@@ -1,3 +1,9 @@
 <article id="home">
-    <h1>{{welcomeMsg}}</h1>
+    <ul class="AIQ-ui-list">
+        {{#trains}}
+        <li>
+            <a data-id="{{id}}">{{number}}</a>
+        </li>
+        {{/trains}}
+    </ul>
 </article>

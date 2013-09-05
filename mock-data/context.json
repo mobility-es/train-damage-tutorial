@@ -1,1 +1,9 @@
-{}
+{
+    "global": {
+        "com.appearnetworks.aiq.user": {
+            "username": "jdo",
+            "fullName": "John Doe",
+            "email": "jdo@example.org"
+        }
+    }
+}
