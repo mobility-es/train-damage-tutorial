@@ -9,18 +9,10 @@ aiq.app.Controller.sub({
         // Here we wrap our "render()" function (mapped to the "refresh" event) in Spine's "proxy()" function to avoid
         // losing the context of our controller instance. See http://spinejs.com/api/controllers for more details on
         // Spine controller functions, including "proxy()" */
-        TD.Train.bind("refresh", this.proxy(this.render));
+        this.listenTo(TD.Train, "refresh", this.proxy(this.render));
 
         // We retrieve all business documents of type "TD.Train" via Spine's Model API
         TD.Train.fetch();
-    },
-
-    destroy: function() {
-        // Unbind all Spine and AIQ bindings here
-        TD.Train.unbind();    // When unbind() is called without argument, it unbinds all events for that model
-
-        // Calling parent
-        this.constructor.__super__.destroy.apply(this, arguments);
     },
 
     // "render()" is called every time this page is displayed
