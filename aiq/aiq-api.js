@@ -1,7 +1,7 @@
-/*! aiq-api-mock - v0.0.1-9d155f - 2013-06-11 */
+/*! aiq-api-mock - v1.0.1- - 2013-09-17 */
 
 var aiq = aiq || {
-    version: '1.0',
+    version: '3',
 
     /**
      * Read mocked data from `/mock-data/{{name}}.json
@@ -27,6 +27,31 @@ var aiq = aiq || {
             }
         }
         return json;
+    },
+
+    /**
+     * Test if given url is reachable
+     *
+     * @note                     Should not be covered by the unittest
+     *                           as exists in the Mocked Api only @note
+     *
+     * @param {String}   url     URL to test
+     * @param {Function} success Called when URL is reachable
+     * @param {Function) failure Called when URL is unreachable
+     */
+    _testURL: function(url, success, failure) {
+        var img = document.createElement('img');
+        img.src = url;
+        img.onload = function() {
+            if (typeof success === 'function') {
+                success();
+            }
+        };
+        img.onerror = function() {
+            if (typeof failure === 'function') {
+                failure();
+            }
+        };
     },
 
     /**
@@ -65,18 +90,68 @@ var aiq = aiq || {
             arg.message = message;
             callback(arg);
         }
+    },
+
+    /**
+     * Because "typeof []" returns "object", we use this function instead, written by Douglas Crockford
+     * http://javascript.crockford.com/remedial.html
+     *
+     * @param value         The object to get type of
+     * @returns {string}    The type of the passed object
+     */
+    _typeOf: function(value) {
+        var s = typeof value;
+        if (s === 'object') {
+            if (value) {
+                if (value instanceof Array) {
+                    s = 'array';
+                }
+            } else {
+                s = 'null';
+            }
+        }
+        return s;
+    },
+
+    _doesSourceMatchPattern: function (source, pattern) {
+        var EPSILON = 0.000001;
+
+        var result = true;
+
+        if (aiq._typeOf(pattern) === 'object' && aiq._typeOf(source) === 'object') {
+            // inception, we have to go deeper >_<
+            var keys = Object.keys(pattern);
+            for (var i = 0; (i < keys.length) && (result); i++) {
+                var key = keys[i];
+                if (source.hasOwnProperty(key)) {
+                    result = this._doesSourceMatchPattern(source[key], pattern[key]);
+                } else {
+                    result = false;
+                }
+            }
+        }
+        else if (aiq._typeOf(pattern) === 'array' && aiq._typeOf(source) === 'array') {
+            // match array elements
+            if (source.length === pattern.length) {
+                for (var i = 0; (i < source.length) && (result); i++) {
+                    result = this._doesSourceMatchPattern(source[i], pattern[i]);
+                }
+            } else {
+                result = false;
+            }
+        } else if (aiq._typeOf(pattern) === 'number' && aiq._typeOf(source) === 'number') {
+            // two numbers, ohai floating points!
+            result = Math.abs(source - pattern) < EPSILON;
+        } else {
+            result = source.toString().match(pattern.toString()) !== null;
+        }
+
+        return result;
     }
 };
 
 // check for DOM ready - then wait for applicationId to be set
 (function() {
-
-    // Extending window.console
-    ['debug', 'info', 'warn', 'error', 'trace'].forEach(function (type) {
-        if (!console[type]) {
-            console[type] = console.log.bind(console);
-        }
-    });
 
     function checkComplete() {
         if (document.readyState !== 'complete') {
@@ -119,12 +194,30 @@ var aiq = aiq || {
                     };
                     aiq._callBridge('management', command);
                 },false);
+                ['log', 'debug', 'info', 'error', 'trace'].forEach(function(type) {
+                    var original = window.console[type] || function() { /* do nothing */ };
+                    window.console[type] = function(args) {
+                        var command = {
+                            method: 'log',
+                            message: args
+                        };
+                        aiq._callBridge('management', command);
+                        original.apply(window.console, arguments);
+                    };
+                });
             },
             success: function(doc) {
                 aiq._applicationId = doc._id;
 
                 if (aiq.device.os === 'iOS') {
                     this.setupPartialIOSBridge();
+                } else {
+                    // Extending window.console
+                    ['debug', 'info', 'warn', 'error', 'trace'].forEach(function (type) {
+                        if (! window.console[type]) {
+                            window.console[type] = window.console.log.bind(console);
+                        }
+                    });
                 }
                 var e = document.createEvent('Events');
                 e.initEvent('aiq-ready', false, false);
@@ -138,10 +231,10 @@ var aiq = aiq || {
 
 })();
 
-(function() {
+(function () {
     'use strict';
 
-    if (! aiq.datasync) {
+    if (!aiq.datasync) {
         aiq.datasync = {
             _documents: [],
             _attachments: {},
@@ -150,28 +243,28 @@ var aiq = aiq || {
             _attachmentEvents: {}
         };
 
-        var triggerEvent = function(event) {
+        var triggerEvent = function (event) {
             if (aiq.datasync._events.hasOwnProperty(event)) {
-                aiq.datasync._events[event].forEach(function(callback) {
+                aiq.datasync._events[event].forEach(function (callback) {
                     callback();
                 });
             }
         };
 
-        var triggerDocumentEvent = function(event, id, type) {
+        var triggerDocumentEvent = function (event, id, type) {
             if (aiq.datasync._documentEvents.hasOwnProperty(event)) {
                 var types = aiq.datasync._documentEvents[event];
                 id = id || '__all__';
                 type = type || '__all__';
                 if (types.hasOwnProperty(type)) {
-                    types[type].forEach(function(callback) {
+                    types[type].forEach(function (callback) {
                         callback(id, true);
                     });
                 }
             }
         };
 
-        var triggerAttachmentEvent = function(event, id, name) {
+        var triggerAttachmentEvent = function (event, id, name) {
             if (aiq.datasync._attachmentEvents.hasOwnProperty(event)) {
                 var ids = aiq.datasync._attachmentEvents[event];
                 id = id || '__all__';
@@ -179,7 +272,7 @@ var aiq = aiq || {
                 if (ids.hasOwnProperty(id)) {
                     var names = ids[id];
                     if (names.hasOwnProperty(name)) {
-                        names[name].forEach(function(callback) {
+                        names[name].forEach(function (callback) {
                             callback(id, name);
                         });
                     }
@@ -187,15 +280,15 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.datasync.getDocument(id[, settings])
-        aiq.datasync.getDocument = function(id, settings) {
+        // aiq.datasync.getDocument(id, [settings])
+        aiq.datasync.getDocument = function (id, settings) {
             settings = settings || {};
 
             if (typeof id !== 'string') {
                 aiq._failWithMessage(settings.failure, 'Invalid identifier');
             } else if (typeof settings.success === 'function') {
                 var document;
-                aiq.datasync._documents.some(function(doc) {
+                aiq.datasync._documents.some(function (doc) {
                     if (doc._id === id) {
                         document = aiq._cloneObject(doc);
                         return true;
@@ -210,13 +303,13 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.datasync.createDocument(type, fields[, settings])
+        // aiq.datasync.createDocument(type, fields, [settings])
         aiq.datasync.createDocument = function (type, fields, settings) {
             settings = settings || {};
 
             if (typeof type !== 'string') {
                 aiq._failWithMessage(settings.failure, 'Invalid type');
-            } else if (typeof fields !== 'object') {
+            } else if (!fields || typeof fields !== 'object') {
                 aiq._failWithMessage(settings.failure, 'Invalid fields');
             } else {
                 var id = fields._id || Date.now().toString(16) + '_' + aiq.datasync._documents.length;
@@ -232,17 +325,17 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.datasync.updateDocument(id, fields[, settings])
-        aiq.datasync.updateDocument = function(id, fields, settings) {
+        // aiq.datasync.updateDocument(id, fields, [settings])
+        aiq.datasync.updateDocument = function (id, fields, settings) {
             settings = settings || {};
 
             if (typeof id !== 'string') {
                 aiq._failWithMessage(settings.failure, 'Invalid identifier');
-            } else if (typeof fields !== 'object') {
+            } else if (!fields || typeof fields !== 'object') {
                 aiq._failWithMessage(settings.failure, 'Invalid fields');
             } else {
                 var docIndex = -1;
-                aiq.datasync._documents.some(function(doc, index) {
+                aiq.datasync._documents.some(function (doc, index) {
                     if (doc._id === id) {
                         docIndex = index;
                         return true;
@@ -265,7 +358,7 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.datasync.deleteDocument(id[, settings])
+        // aiq.datasync.deleteDocument(id, [settings])
         aiq.datasync.deleteDocument = function (id, settings) {
             settings = settings || {};
 
@@ -273,7 +366,7 @@ var aiq = aiq || {
                 aiq._failWithMessage(settings.failure, 'Invalid identifier');
             } else {
                 var docIndex = -1;
-                aiq.datasync._documents.some(function(doc, index) {
+                aiq.datasync._documents.some(function (doc, index) {
                     if (doc._id === id) {
                         docIndex = index;
                         return true;
@@ -294,27 +387,31 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.datasync.getDocuments(type[, settings])
-        aiq.datasync.getDocuments = function(type, settings) {
+        // aiq.datasync.getDocuments(type, [settings])
+        aiq.datasync.getDocuments = function (type, settings) {
             settings = settings || {};
 
             if (typeof type !== 'string') {
                 aiq._failWithMessage(settings.failure, 'Invalid type');
             } else if (typeof settings.success === 'function') {
                 var docs = [];
-                aiq.datasync._documents.forEach(function(doc) {
+                aiq.datasync._documents.forEach(function (doc) {
                     if (doc._type === type) {
-                        // Document object has to be copied because our nasty spine
-                        // model implementation renames _id fields to id.
-                        docs.push(aiq._cloneObject(doc));
+                        if (!settings.filter ||
+                            aiq._doesSourceMatchPattern(doc, settings.filter)) {
+
+                            // Document object has to be copied because our nasty spine
+                            // model implementation renames _id fields to id.
+                            docs.push(aiq._cloneObject(doc));
+                        }
                     }
                 });
                 settings.success(docs);
             }
         };
 
-        // aiq.datasync.getAttachment(id, name[, settings])
-        aiq.datasync.getAttachment = function(id, name, settings) {
+        // aiq.datasync.getAttachment(id, name, [settings])
+        aiq.datasync.getAttachment = function (id, name, settings) {
             settings = settings || {};
 
             if (typeof id !== 'string') {
@@ -324,14 +421,15 @@ var aiq = aiq || {
             } else if (typeof settings.success === 'function') {
                 // Let's make sure that the document exists
                 aiq.datasync.getDocument(id, {
-                    success: function() {
-                        var attachments = aiq.datasync_attachments[id] || {};
+                    success: function () {
+                        var attachments = aiq.datasync._attachments[id] || {};
                         var attachment = attachments[name];
                         if (attachment) {
                             settings.success({
                                 name: name,
                                 contentType: attachment.contentType,
-                                resourceId: attachment.resourceId,
+                                resourceId: attachment.resourceUrl, // backward compatibility
+                                resourceUrl: attachment.resourceUrl,
                                 state: 'available'
                             });
                         } else {
@@ -344,37 +442,84 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.datasync._createAttachment(id, name, data, contentType[, settings]) - private API
-        aiq.datasync._createAttachment = function(id, name, data, contentType, settings) {
+        var storeAttachment = function (id, name, descriptor, callback) {
+            var attachments = aiq.datasync._attachments[id] || {};
+            attachments[name] = {
+                contentType: descriptor.contentType,
+                resourceUrl: descriptor.resourceUrl
+            };
+            aiq.datasync._attachments[id] = attachments;
+            triggerAttachmentEvent('attachment-available', id, name);
+
+            if (typeof callback === 'function') {
+                callback({
+                    name: name,
+                    contentType: descriptor.contentType,
+                    resourceUrl: descriptor.resourceUrl,
+                    state: 'available'
+                });
+            }
+        };
+
+        // aiq.datasync.createAttachment(id, descriptor, [settings])
+        aiq.datasync.createAttachment = function (id, descriptor, settings) {
             settings = settings || {};
 
             if (typeof id !== 'string') {
                 aiq._failWithMessage(settings.failure, 'Invalid identifier');
-            } else if (typeof id !== 'string') {
-                aiq._failWithMessage(settings.failure, 'Invalid name');
-            } else if (typeof data !== 'string') {
-                aiq._failWithMessage(settings.failure, 'Invalid data');
-            } else if (typeof contentType !== 'string') {
+            } else if (typeof descriptor !== 'object') {
+                aiq._failWithMessage(settings.failure, 'Invalid descriptor');
+            } else if (typeof descriptor.contentType !== 'string') {
                 aiq._failWithMessage(settings.failure, 'Invalid content type');
+            } else if (typeof descriptor.resourceUrl !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid resource URL');
             } else {
-                // Let's make sure that the document exists
                 aiq.datasync.getDocument(id, {
-                    success: function() {
-                        var attachments = aiq.datasync._attachments[id] || {};
-                        attachments[name] = {
-                            contentType: contentType,
-                            resourceId: data
-                        };
-                        aiq.datasync._attachments[id] = attachments;
-                        triggerAttachmentEvent('attachment-available', id, name);
+                    success: function () {
+                        aiq._testURL(descriptor.resourceUrl, function () {
+                            var attachments = aiq.datasync._attachments[id] || {};
+                            var name = descriptor.name || id + '_' + Object.keys(attachments).length;
+                            if (attachments.hasOwnProperty(name)) {
+                                aiq._failWithMessage(settings.failure, 'Attachment already exists');
+                            } else {
+                                storeAttachment(id, name, descriptor, settings.success);
+                            }
+                        }, function () {
+                            aiq._failWithMessage(settings.failure, 'Resource not found');
+                        });
+                    },
+                    failure: settings.failure,
+                    error: settings.error
+                });
+            }
+        };
 
-                        if (typeof settings.success === 'function') {
-                            settings.success({
-                                name: name,
-                                contentType: contentType,
-                                resourceId: data,
-                                status: 'available'
+        // aiq.datasync.updateAttachment(id, name, descriptor, [settings])
+        aiq.datasync.updateAttachment = function (id, name, descriptor, settings) {
+            settings = settings || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid identifier');
+            } else if (typeof name !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid name');
+            } else if (typeof descriptor !== 'object') {
+                aiq._failWithMessage(settings.failure, 'Invalid descriptor');
+            } else if (typeof descriptor.contentType !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid content type');
+            } else if (typeof descriptor.resourceUrl !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid resource URL');
+            } else {
+                aiq.datasync.getDocument(id, {
+                    success: function () {
+                        var attachments = aiq.datasync._attachments[id] || {};
+                        if (attachments.hasOwnProperty(name)) {
+                            aiq._testURL(descriptor.resourceUrl, function () {
+                                storeAttachment(id, name, descriptor, settings.success);
+                            }, function () {
+                                aiq._failWithMessage(settings.failure, 'Resource not found');
                             });
+                        } else {
+                            aiq._failWithMessage(settings.failure, 'Attachment does not exist');
                         }
                     },
                     failure: settings.failure,
@@ -383,7 +528,7 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.datasync.deleteAttachment(id, name[, settings])
+        // aiq.datasync.deleteAttachment(id, name, [settings])
         aiq.datasync.deleteAttachment = function (id, name, settings) {
             settings = settings || {};
 
@@ -394,7 +539,7 @@ var aiq = aiq || {
             } else {
                 // Let's make sure that the document exists
                 aiq.datasync.getDocument(id, {
-                    success: function() {
+                    success: function () {
                         var attachments = aiq.datasync._attachments[id];
                         if (attachments.hasOwnProperty(name)) {
                             delete attachments[name];
@@ -413,8 +558,8 @@ var aiq = aiq || {
 
         };
 
-        // aiq.datasync.getAttachments(id[, settings])
-        aiq.datasync.getAttachments = function(id, settings) {
+        // aiq.datasync.getAttachments(id, [settings])
+        aiq.datasync.getAttachments = function (id, settings) {
             settings = settings || {};
 
             if (typeof id !== 'string') {
@@ -422,14 +567,15 @@ var aiq = aiq || {
             } else if (typeof settings.success === 'function') {
                 // Let's make sure that the document exists
                 aiq.datasync.getDocument(id, {
-                    success: function() {
+                    success: function () {
                         var attachments = aiq.datasync._attachments[id] || {};
-                        var result = Object.keys(attachments).map(function(name) {
+                        var result = Object.keys(attachments).map(function (name) {
                             return {
                                 name: name,
                                 contentType: attachments[name].contentType,
-                                resourceId: attachments[name].resourceId,
-                                status: 'available'
+                                resourceId: attachments[name].resourceUrl, // backward compatibility
+                                resourceUrl: attachments[name].resourceUrl,
+                                state: 'available'
                             };
                         });
                         settings.success(result);
@@ -441,8 +587,8 @@ var aiq = aiq || {
         };
 
         // aiq.datasync.synchronize()
-        aiq.datasync.synchronize = function() {
-            setTimeout(function() {
+        aiq.datasync.synchronize = function () {
+            setTimeout(function () {
                 triggerEvent('synchronization-complete');
             }, 1500);
         };
@@ -489,13 +635,13 @@ var aiq = aiq || {
         };
 
         // aiq.datasync.unbind()
-        aiq.datasync.unbind = function(callback) {
+        aiq.datasync.unbind = function (callback) {
             if (typeof callback === 'function') {
                 // var event;
                 var index;
                 var callbacks;
 
-                Object.keys(aiq.datasync._events).forEach(function(event) {
+                Object.keys(aiq.datasync._events).forEach(function (event) {
                     callbacks = aiq.datasync._events[event];
                     while ((index = callbacks.indexOf(callback)) !== -1) {
                         callbacks.splice(index, 1);
@@ -503,9 +649,9 @@ var aiq = aiq || {
                     aiq.datasync._events[event] = callbacks;
                 });
 
-                Object.keys(aiq.datasync._documentEvents).forEach(function(event) {
+                Object.keys(aiq.datasync._documentEvents).forEach(function (event) {
                     var types = aiq.datasync._documentEvents[event];
-                    Object.keys(types).forEach(function(type) {
+                    Object.keys(types).forEach(function (type) {
                         callbacks = types[type];
                         while ((index = callbacks.indexOf(callback)) !== -1) {
                             callbacks.splice(index, 1);
@@ -516,11 +662,11 @@ var aiq = aiq || {
                     aiq.datasync._documentEvents[event] = types;
                 });
 
-                Object.keys(aiq.datasync._attachmentEvents).forEach(function(event) {
+                Object.keys(aiq.datasync._attachmentEvents).forEach(function (event) {
                     var ids = aiq.datasync._attachmentEvents[event];
-                    Object.keys(ids).forEach(function(id) {
+                    Object.keys(ids).forEach(function (id) {
                         var names = ids[id];
-                        Object.keys(names).forEach(function(name) {
+                        Object.keys(names).forEach(function (name) {
                             callbacks = names[name];
                             while ((index = callbacks.indexOf(callback)) !== -1) {
                                 callbacks.splice(index, 1);
@@ -535,7 +681,7 @@ var aiq = aiq || {
         };
 
         // aiq.datasync.getConnectionStatus()
-        aiq.datasync.getConnectionStatus = function(callback) {
+        aiq.datasync.getConnectionStatus = function (callback) {
             if (typeof callback === 'function') {
                 callback(true);
             }
@@ -543,22 +689,22 @@ var aiq = aiq || {
 
         var json = aiq._getMockData('datasync');
         if ((json) && (typeof json === 'object') && (json.hasOwnProperty('documents'))) {
-            json.documents.forEach(function(doc) {
+            json.documents.forEach(function (doc) {
                 aiq.datasync.createDocument(doc._type, doc);
             });
 
             if (json.hasOwnProperty('attachments')) {
-                Object.keys(json.attachments).forEach(function(id) {
+                Object.keys(json.attachments).forEach(function (id) {
                     var attachments = json.attachments[id];
-                    Object.keys(attachments).forEach(function(name) {
+                    Object.keys(attachments).forEach(function (name) {
                         var attachment = attachments[name];
                         if ((typeof attachment.contentType === 'string') &&
                             (typeof attachment.path === 'string')) {
-                            aiq.datasync._createAttachment(
-                                id,
-                                name,
-                                'mock-data/attachments/' + attachment.path,
-                                attachment.contentType);
+                            aiq.datasync.createAttachment(id, {
+                                name: name,
+                                resourceUrl: 'mock-data/attachments/' + attachment.path,
+                                contentType: attachment.contentType
+                            });
                         }
                     });
                 });
@@ -571,6 +717,96 @@ var aiq = aiq || {
     'use strict';
     
     if (! aiq.client) {
+        var MAX_BUTTONS = 3;
+        
+        var createButton = function(id, image, label, enabled, visible) {
+            var button = document.createElement('a');
+            button.setAttribute('data-id', id);
+            button.setAttribute('class', 'aiq-bar-button-item');
+            button.style.display = 'inline-block';
+            button.style.position = 'fixed';
+            button.style.top = '-1px';
+            button.style.zIndex = '999';
+            button.style.height = '25px';
+            button.style.lineHeight = '25px';
+            button.style.width = (label) ? '110px' : '25px';
+            button.style.overflow = 'hidden';
+            button.style.textOverflow = 'ellipsis';
+            button.style.whiteSpace = 'nowrap';
+            button.style.paddingLeft = '25px';
+            button.style.paddingRight = '1px';
+            button.style.boxSizing = 'border-box';
+            button.style.fontSize = '12px';
+            button.style.border = '1px solid black';
+            button.style.backgroundColor = 'white';
+            button.style.fontFamily = 'Arial';
+
+            if (! visible) {
+                button.style.display = 'none';
+            }
+
+            if (label) {
+                button.innerHTML = label;
+            }
+
+            var img = document.createElement('img');
+            img.style.position = 'absolute';
+            img.style.top = '1px';
+            img.style.left = '1px';
+            img.style.width = '23px';
+            img.style.height = '23px';
+            if (enabled) {
+                button.style.cursor = 'pointer';
+                button.style.color = 'black';
+            } else {
+                button.style.cursor = 'default';
+                button.style.color = '#d0d0d0';
+                button.style.pointerEvents = 'none';
+                img.style.opacity = '.4';
+            }
+            img.setAttribute('src', image);
+            button.appendChild(img);
+            
+            return button;
+        };
+
+        var refreshCustomButtons = function() {
+            var buttons = document.getElementsByClassName('aiq-bar-button-item');
+            for (var i = 0; i < buttons.length; i++) {
+                var button = buttons[i];
+                if (button.getAttribute('data-id') !== 'back') {
+                    document.body.removeChild(button);
+                }
+            }
+
+            var position = -1;
+            aiq.client.navbar._buttons.forEach(function(descriptor) {
+                if (descriptor.visible) {
+                    var button = createButton(
+                        descriptor.id,
+                        descriptor.image,
+                        descriptor.label,
+                        descriptor.enabled,
+                        descriptor.visible);
+                    button.style.right = position + 'px';
+                    // magic numbers are magic just to ensure that two
+                    // neighboring buttons share only one border
+                    if (descriptor.label) {
+                        position += 109;
+                    } else {
+                        position += 27;
+                    }
+                    button.onclick = descriptor.onClick;
+                    document.body.appendChild(button);
+                }
+            });
+        };
+
+        var countVisibleButtons = function() {
+            return aiq.client.navbar._buttons.reduce(function(previous, current) {
+                return previous + (current.visible ? 1 : 0);
+            }, 0);
+        };
 
         aiq.client = {
             version: '1.0.0'
@@ -597,6 +833,157 @@ var aiq = aiq || {
         aiq.client.setAppTitle = function(title) {
             document.title = title;
         };
+
+        aiq.client.navbar = {
+            _buttons: []
+        };
+
+        // private function, used by the test suite to clean the
+        // navigation bar, though it doesn't call any public APIs
+        aiq.client.navbar._clean = function(callback) {
+            var buttons = document.getElementsByClassName('aiq-bar-button-item');
+            for (var i = 0; i < buttons.length; i++) {
+                document.body.removeChild(buttons[i]);
+            }
+            this._buttons = [];
+            
+            if (typeof callback === 'function') {
+                callback();
+            }
+        };
+
+        aiq.client.navbar.addButton = function(properties, settings) {
+            properties = properties || {};
+            settings = settings || {};
+
+            if (! properties.hasOwnProperty('image')) {
+                aiq._failWithMessage(settings.failure, 'Image not specified');
+                return;
+            }
+            if (typeof properties.onClick !== 'function') {
+                aiq._failWithMessage(settings.failure, 'Callback not specified');
+                return;
+            }
+            if (! properties.hasOwnProperty('enabled')) {
+                properties.enabled = true;
+            }
+            if (! properties.hasOwnProperty('visible')) {
+                properties.visible = true;
+            }
+
+            if ((properties.visible) && (countVisibleButtons() === MAX_BUTTONS)) {
+                aiq._failWithMessage(settings.failure, 'Too many visible buttons');
+                return;
+            }
+
+            var descriptor = {
+                id: this._buttons.length.toString(),
+                image: properties.image,
+                label: properties.label,
+                enabled: properties.enabled,
+                visible: properties.visible,
+                onClick: properties.onClick
+            };
+            this._buttons.push(descriptor);
+            
+            refreshCustomButtons();
+            
+            if (typeof settings.success === 'function') {
+                settings.success(aiq._cloneObject(descriptor));
+            }
+        };
+
+        aiq.client.navbar.updateButton = function(id, properties, settings) {
+            settings = settings || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Identifier not specified');
+            } else {
+                var result = this._buttons.some(function(descriptor) {
+                    if (descriptor.id === id) {
+                        if (properties.hasOwnProperty('visible')) {
+                            if ((properties.visible) && (countVisibleButtons() === MAX_BUTTONS)) {
+                                aiq._failWithMessage(settings.failure, 'Too many visible buttons');
+                                return true;
+                            } else {
+                                descriptor.visible = properties.visible;
+                            }
+                        }
+                        if (properties.hasOwnProperty('image')) {
+                            descriptor.image = properties.image;
+                        }
+                        if (properties.hasOwnProperty('label')) {
+                            descriptor.label = properties.label;
+                        }
+                        if (properties.hasOwnProperty('enabled')) {
+                            descriptor.enabled = properties.enabled;
+                        }
+                        refreshCustomButtons();
+                        if (typeof settings.success === 'function') {
+                            settings.success(aiq._cloneObject(descriptor));
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }, this);
+                if (! result) {
+                    aiq._failWithMessage(settings.failure, 'Button not found');
+                }
+            }
+        };
+
+        aiq.client.navbar.deleteButton = function(id, settings) {
+            settings = settings || {};
+            
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Identifier not specified');
+            } else {
+                var result = this._buttons.some(function(descriptor, index) {
+                    if (descriptor.id === id) {
+                        this._buttons.splice(index, 1);
+                        refreshCustomButtons();
+                        if (typeof settings.success === 'function') {
+                            settings.success();
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }, this);
+                if (! result) {
+                    aiq._failWithMessage(settings.failure, 'Button not found');
+                }
+            }
+        };
+
+        aiq.client.navbar.getButton = function(id, settings) {
+            settings = settings || {};
+            
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Identifier not specified');
+            } else if (typeof settings.success === 'function') {
+                var found = this._buttons.some(function(descriptor) {
+                    if (descriptor.id === id) {
+                        settings.success(aiq._cloneObject(descriptor));
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+                if (! found) {
+                    aiq._failWithMessage(settings.failure, 'Button not found');
+                }
+            }
+        };
+
+        aiq.client.navbar.getButtons = function(settings) {
+            settings = settings || {};
+
+            if (typeof settings.success === 'function') {
+                settings.success(this._buttons.map(aiq._cloneObject));
+            }
+        };
     }
 })();
 
@@ -620,7 +1007,7 @@ var aiq = aiq || {
             });
         };
 
-        // aiq.context.getGlobal(providerName[, settings])
+        // aiq.context.getGlobal(providerName, [settings])
         aiq.context.getGlobal = function(providerName, settings) {
             settings = settings || {};
 
@@ -651,7 +1038,7 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.context.getLocal(key[, settings])
+        // aiq.context.getLocal(key, [settings])
         aiq.context.getLocal = function(key, settings) {
             settings = settings || {};
 
@@ -676,7 +1063,7 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.context.setLocal(key, value[, settings])
+        // aiq.context.setLocal(key, value, [settings])
         aiq.context.setLocal = function(key, value, settings) {
             settings = settings || {};
 
@@ -805,81 +1192,197 @@ var aiq = aiq || {
     if (!aiq.directcall) {
         aiq.directcall = {};
 
+        // Checks the value against given regular expression pattern.
+        var checkRegexp = function(pattern, value) {
+            var match = value.match(pattern);
+            return (match !== null) && (match.length === 1) && (match[0] === value);
+        };
+
+        // Tells whether two objects match using regular expressions from the
+        // right object.
+        var objectsMatch = function(left, right, property) {
+            if (typeof left[property] === 'object') {
+                return !Object.keys(left[property]).some(function(key) {
+                    if (right.hasOwnProperty(property)) {
+                        if (left.hasOwnProperty(property)) {
+                            return ! checkRegexp('' + left[property][key], '' + right[property][key]);
+                        } else {
+                            return true;
+                        }
+                    } else {
+                        return false;
+                    }
+                });
+            } else {
+                return checkRegexp('' + left[property], '' + right[property]);
+            }
+        };
+
+        // Handles the old format of the mock data input, in which params, errorCode and data
+        // were all on the same level.
+        var handleOldInput = function(args, inputs, settings) {
+            var found;
+            inputs.some(function(input) {
+                if (args.hasOwnProperty('params')) {
+                    if ((input.hasOwnProperty('params')) && (typeof input.params === 'object')) {
+                        for (var param in input.params) {
+                            if (input.params.hasOwnProperty(param)) {
+                                return checkRegexp('' + input.params[param], '' + args.params[param]);
+                            }
+                        }
+                        found = input;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else if (! input.hasOwnProperty('params')) {
+                    found = input;
+                    return true;
+                }
+            });
+            if (found) {
+                if (found.hasOwnProperty('errorCode')) {
+                    aiq._failWithMessage(settings.failure, 'Invalid response', { errorCode: found.errorCode });
+                } else if (found.hasOwnProperty('data')) {
+                    settings.success(found.data);
+                } else {
+                    aiq._failWithMessage(settings.error, 'Invalid mock file');
+                }
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        // Handles the new format of the mock data input, in which all input parameters are
+        // stored under "query" key and the output response code, headers and body is stored
+        // under "response" key. Neato!
+        var handleNewInput = function(args, inputs, settings) {
+            var found;
+            inputs.some(function(input) {
+                if ((objectsMatch(input.query, args, 'params')) &&
+                    (objectsMatch(input.query, args, 'headers')) &&
+                    (objectsMatch(input.query, args, 'contentType'))) {
+                    found = input;
+                    return true;
+                }
+                return false;
+            });
+
+            if (found) {
+                var status = parseInt(found.response.status, 10);
+                if ((status >= 200) && (status < 300)) {
+                    // success
+                    if (found.response.contentType) {
+                        if ((found.response.contentType === 'application/json') ||
+                            (found.response.contentType.indexOf('text/') === 0)) {
+                            settings.success(found.response.body, {
+                                status: status,
+                                headers: found.response.headers || {},
+                                contentType: found.response.contentType
+                            });
+                        } else {
+                            settings.success(found.response.resourceUrl, {
+                                status: status,
+                                headers: found.response.headers || {},
+                                contentType: found.response.contentType
+                            });
+                        }
+                    } else {
+                        settings.success(
+                            found.response.body || found.response.resourceUrl, {
+                                status: status,
+                                headers: found.response.headers || {},
+                                contentType: found.response.contentType
+                            });
+                    }
+                } else {
+                    // failure
+                    aiq._failWithMessage(
+                        settings.failure,
+                        'Invalid response', {
+                            errorCode: status,
+                            headers: found.response.headers || {},
+                            contentType: found.response.contentType || null,
+                            body: found.response.body || null,
+                            resourceUrl: found.response.resourceUrl || null
+                        });
+                }
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        // Performs a direct call based on the given method.
         var call = function(method, args, settings) {
             settings = settings || {};
+            args = args || {};
 
-            if (typeof args !== 'object') {
-                aiq._failWithMessage(settings.failure, 'Invalid argument');
-            } else if (typeof args.endpoint !== 'string') {
+            if (typeof args.endpoint !== 'string') {
                 aiq._failWithMessage(settings.failure, 'Invalid endpoint');
             } else if ((args.hasOwnProperty('params')) && (typeof args.params !== 'object')) {
                 aiq._failWithMessage(settings.failure, 'Invalid params');
+            } else if ((args.hasOwnProperty('headers')) && (typeof args.headers !== 'object')) {
+                aiq._failWithMessage(settings.failure, 'Invalid headers');
+            } else if (((method === 'get') ||
+                        (method === 'delete')) &&
+                       ((args.hasOwnProperty('contentType')) ||
+                        (args.hasOwnProperty('body')) ||
+                        (args.hasOwnProperty('resourceUrl')))) {
+                aiq._failWithMessage(settings.failure, 'Method does not accept body parameters');
+            } else if ((args.hasOwnProperty('body')) && (args.hasOwnProperty('resourceUrl'))) {
+                aiq._failWithMessage(settings.failure, 'Body and resource URL are exclusive');
+            } else if ((args.hasOwnProperty('body')) && (args.hasOwnProperty('contentType'))) {
+                aiq._failWithMessage(settings.failure, 'Body parameters does not support forced content type');
             } else if (typeof settings.success === 'function') {
+                // It only makes sense to perform a call when there is a callback to consume its
+                // result
                 var json = aiq._getMockData('directcall-' + args.endpoint);
                 if (json) {
                     if (json.hasOwnProperty(method)) {
-                        var responses = json[method];
+                        var inputs = json[method];
                         var found;
-                        responses.some(function(response) {
-                            if (args.hasOwnProperty('params')) {
-                                if ((response.hasOwnProperty('params')) && (typeof response.params === 'object')) {
-                                    for (var param in response.params) {
-                                        if (response.params.hasOwnProperty(param)) {
-                                            var value = '' + args.params[param];
-                                            var match = value.match('' + response.params[param]);
-                                            if ((! match) ||
-                                                (match.length !== 1) ||
-                                                (match[0] !== value)) {
-                                                return false;
-                                            }
-                                        }
-                                    }
-                                    found = response;
-                                    return true;
-                                } else {
-                                    return false;
-                                }
-                            } else if (! response.hasOwnProperty('params')) {
-                                found = response;
-                                return true;
-                            }
-                        });
-                        if (found) {
-                            if (found.hasOwnProperty('errorCode')) {
-                                aiq._failWithMessage(settings.failure, 'Invalid response', { errorCode: found.errorCode });
-                            } else if (found.hasOwnProperty('data')) {
-                                settings.success(found.data);
-                            } else {
-                                aiq._failWithMessage(settings.error, 'Invalid mock file');
-                            }
+                        // Let's check which input  type we're getting here
+                        if ((inputs) &&
+                            (inputs.length !== 0) &&
+                            (inputs[0].hasOwnProperty('query')) &&
+                            (inputs[0].hasOwnProperty('response'))) {
+                            // It's the new one, cool
+                            found = handleNewInput(args, inputs, settings);
                         } else {
+                            // Old input type, let's fall back to the old behavior
+                            found = handleOldInput(args, inputs, settings);
+                        }
+                        
+                        if (! found) {
                             aiq._failWithMessage(settings.failure, 'No matching responses', { errorCode: 404 });
                         }
                     } else {
-                        aiq._failWithMessage(settings.failure, 'Unsupported method', { errorCode: 404 });
+                        aiq._failWithMessage(settings.failure, 'Unsupported method', { status: 404 });
                     }
                 } else {
-                    aiq._failWithMessage(settings.failure, 'Endpoint not found', { errorCode: 404 });
+                    aiq._failWithMessage(settings.failure, 'Endpoint not found', { status: 404 });
                 }
             }
         };
 
-        // aiq.directcall.getResource(args[, settings])
+        // aiq.directcall.getResource(args, [settings])
         aiq.directcall.getResource = function(args, settings) {
             call('get', args, settings);
         };
 
-        // aiq.directcall.postResource(args[, settings])
+        // aiq.directcall.postResource(args, [settings])
         aiq.directcall.postResource = function(args, settings) {
             call('post', args, settings);
         };
 
-        // aiq.directcall.putResource(args[, settings])
+        // aiq.directcall.putResource(args, [settings])
         aiq.directcall.putResource = function(args, settings) {
             call('put', args, settings);
         };
 
-        // aiq.directcall.deleteResource(args[, settings])
+        // aiq.directcall.deleteResource(args, [settings])
         aiq.directcall.deleteResource = function(args, settings) {
             call('delete', args, settings);
         };
@@ -934,15 +1437,33 @@ var aiq = aiq || {
     if (! aiq.imaging) {
         aiq.imaging = {};
 
-        // aiq.imaging.capture(id[, settings])
-        aiq.imaging.capture = function (id, settings) {
-            settings = settings || {};
+        // aiq.imaging.capture(id, [settings]) - deprecated
+        // aiq.imaging.capture(settings)
+        aiq.imaging.capture = function (idOrSettings, settingsOrNil) {
+            var resourceUrl = 'data:image/png;base64,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';
+            
+            if (typeof idOrSettings === 'string') {
+                // old, boring deprecated API
+                
+                settingsOrNil = settingsOrNil || {};
+                
+                var descriptor = {
+                    name: idOrSettings + '_' + Date.now().toString(16) + '.png',
+                    contentType: 'image/png',
+                    resourceUrl: resourceUrl
+                };
+                aiq.datasync.createAttachment(idOrSettings, descriptor, settingsOrNil);
+            } else {
+                // new API, how exciting!
+                idOrSettings = idOrSettings || {};
+                if (typeof idOrSettings.success === 'function') {
+                    idOrSettings.success({
+                        contentType: 'image/png',
+                        resourceUrl: resourceUrl
+                    });
+                }
+            }
 
-            aiq.datasync._createAttachment(id, id + Date.now() + '.png', 'data:image/png;base64,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', 'image/png', {
-                success: settings.success,
-                failure: settings.failure,
-                error: settings.error
-            });
         };
     }
 })();
@@ -956,7 +1477,7 @@ var aiq = aiq || {
             _events: {}
         };
 
-        // aiq.messaging.getMessages(type[, settings])
+        // aiq.messaging.getMessages(type, [settings])
         aiq.messaging.getMessages = function(type, settings) {
             settings = settings || {};
             
@@ -977,7 +1498,7 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.messaging.getMessage(id[, settings])
+        // aiq.messaging.getMessage(id, [settings])
         aiq.messaging.getMessage = function(id, settings) {
             settings = settings || {};
 
@@ -1002,7 +1523,7 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.messaging.markMessageAsRead(id[, settings])
+        // aiq.messaging.markMessageAsRead(id, [settings])
         aiq.messaging.markMessageAsRead = function(id, settings) {
             settings = settings || {};
 
@@ -1031,7 +1552,7 @@ var aiq = aiq || {
             }
         };
 
-        // aiq.messaging.bindMessageEvent(event, type[, callback])
+        // aiq.messaging.bindMessageEvent(event, type, [callback])
         aiq.messaging.bindMessageEvent = function(event, type, callback) {
             if ((typeof event === 'string') && (typeof callback === 'function')) {
                 type = type || '__all__';
@@ -1081,5 +1602,142 @@ var aiq = aiq || {
                 }
             });
         }
+    }
+})();
+
+(function () {
+    'use strict';
+
+    if (!aiq.storage) {
+        aiq.storage = {
+            _documents: []
+        };
+
+        // aiq.storage.getDocument(id, [settings])
+        aiq.storage.getDocument = function (id, settings) {
+            settings = settings || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid identifier');
+            } else if (typeof settings.success === 'function') {
+                var document;
+                aiq.storage._documents.some(function (doc) {
+                    if (doc._id === id) {
+                        document = aiq._cloneObject(doc);
+                        return true;
+                    }
+                    return false;
+                });
+                if (document) {
+                    settings.success(document);
+                } else {
+                    aiq._failWithMessage(settings.failure, 'Document not found');
+                }
+            }
+        };
+
+        // aiq.storage.createDocument(type, fields, [settings])
+        aiq.storage.createDocument = function (type, fields, settings) {
+            settings = settings || {};
+
+            if (typeof type !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid type');
+            } else if (!fields || typeof fields !== 'object') {
+                aiq._failWithMessage(settings.failure, 'Invalid fields');
+            } else {
+                var id = fields._id || Date.now().toString(16) + '_' + aiq.storage._documents.length;
+                var document = aiq._cloneObject(fields, '^_');
+                document._id = id;
+                document._type = type;
+                aiq.storage._documents.push(document);
+
+                if (typeof settings.success === 'function') {
+                    settings.success(document);
+                }
+            }
+        };
+
+        // aiq.storage.updateDocument(id, fields, [settings])
+        aiq.storage.updateDocument = function (id, fields, settings) {
+            settings = settings || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid identifier');
+            } else if (!fields || typeof fields !== 'object') {
+                aiq._failWithMessage(settings.failure, 'Invalid fields');
+            } else {
+                var docIndex = -1;
+                aiq.storage._documents.some(function (doc, index) {
+                    if (doc._id === id) {
+                        docIndex = index;
+                        return true;
+                    }
+                    return false;
+                });
+                if (docIndex === -1) {
+                    aiq._failWithMessage(settings.failure, 'Document not found');
+                } else {
+                    var doc = aiq._cloneObject(fields, '^_');
+                    doc._id = id;
+                    doc._type = aiq.storage._documents[docIndex]._type;
+                    aiq.storage._documents[docIndex] = doc;
+
+                    if (typeof settings.success === 'function') {
+                        settings.success(doc);
+                    }
+                }
+            }
+        };
+
+        // aiq.storage.deleteDocument(id, [settings])
+        aiq.storage.deleteDocument = function (id, settings) {
+            settings = settings || {};
+
+            if (typeof id !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid identifier');
+            } else {
+                var docIndex = -1;
+                aiq.storage._documents.some(function (doc, index) {
+                    if (doc._id === id) {
+                        docIndex = index;
+                        return true;
+                    }
+                    return false;
+                });
+                if (docIndex === -1) {
+                    aiq._failWithMessage(settings.failure, 'Document not found');
+                } else {
+                    var type = aiq.storage._documents[docIndex]._type;
+                    aiq.storage._documents.splice(docIndex, 1);
+
+                    if (typeof settings.success === 'function') {
+                        settings.success();
+                    }
+                }
+            }
+        };
+
+        // aiq.storage.getDocuments(type, [settings])
+        aiq.storage.getDocuments = function (type, settings) {
+            settings = settings || {};
+
+            if (typeof type !== 'string') {
+                aiq._failWithMessage(settings.failure, 'Invalid type');
+            } else if (typeof settings.success === 'function') {
+                var docs = [];
+                aiq.storage._documents.forEach(function (doc) {
+                    if (doc._type === type) {
+                        if (!settings.filter ||
+                            aiq._doesSourceMatchPattern(doc, settings.filter)) {
+
+                            // Document object has to be copied because our nasty spine
+                            // model implementation renames _id fields to id.
+                            docs.push(aiq._cloneObject(doc));
+                        }
+                    }
+                });
+                settings.success(docs);
+            }
+        };
     }
 })();
