@@ -37,6 +37,7 @@ body:not(.loaded) #viewport {
 
 body.loaded {
     background-image: none;
+    height: auto;
 }
 
 body.loaded #viewport {
@@ -62,7 +63,7 @@ footer {
 *****************************************************************************/
 
 .AIQ-ui-list {
-    list-style: none;
+    list-style-type: none;
     width: 100%;
 }
 
@@ -95,8 +96,6 @@ footer {
 .AIQ-ui-list li > a {
     display: block;
     color: black;
-    /* Hardware accelerate :active styles */
-    -webkit-transform: translateZ(0);
 }
 
 .AIQ-ui-list li + li {
