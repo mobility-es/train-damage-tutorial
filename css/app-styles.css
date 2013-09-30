@@ -32,7 +32,6 @@
     width: 100%;
     height: 12em;
     padding: 0.5em;
-    /* To include the padding in the size */
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -46,15 +45,7 @@
 * Damages view
 *****************************************************************************/
 #damages-header {
-    /*  Fixed header CSS declarations for Chrome and Android
-        Without fixed header, use "height: auto" */
-    height: 3.5em;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1;
-    background: url("../aiq/app/images/background-grey.png") no-repeat;
-    background-size: cover;
+    height: auto;
 }
 
 #damages-header:before, #damages-header:after {
@@ -79,26 +70,10 @@
     margin: 0.5em 1em;
 }
 
-#damages {
-    /* Fixed header CSS declaration for Chrome and Android */
-    margin-top: 3.5em;
-}
-
 #damages .AIQ-ui-list a {
     background: url("../aiq/app/images/list-bg-default.png") repeat-x 0 0;
     background-size: auto 2.10526em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.iOS #damages-header {
-    position: absolute;
-}
-
-.iOS #damages {
-    margin-top: 0;
-    position: absolute;
-    top: 3.5em;
-    overflow: scroll;
 }

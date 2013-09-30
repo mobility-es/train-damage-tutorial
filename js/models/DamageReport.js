@@ -1,4 +1,4 @@
-TD.DamageReport = aiq.app.Model.sub();
+TD.DamageReport = aiq.app.datasync.Model.sub();
 
 TD.DamageReport.configure("TD.DamageReport",
     "trainId",

@@ -1,0 +1,26 @@
+// Input controls
+input, textarea {
+    // Override iOS default styles
+    @include border-radius(0);
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+
+    height: $inputBgHeight;
+    padding: 0 0.2em;
+
+    @include placeholder-color($fontLightGreyColor);
+    @include box-sizing(border-box);
+
+    border: 1px solid $widgetBorderColor;
+    background-image: $inputBg;
+    background-repeat: repeat-x;
+    background-size: auto $inputBgHeight;
+}
+
+.search {
+    background-image: $greyMagnifier, $inputBg;
+    background-repeat: no-repeat, repeat-x;
+    background-position: right, 0 0;
+    background-size: -aiq-em(30px, $baseline) -aiq-em(24px, $baseline), auto $inputBgHeight;
+    
+    padding-right: 1.9em;
+}
