@@ -4,16 +4,8 @@ aiq.app.Controller.sub({
     },
 
     init: function () {
-        TD.DamageReport.bind("refresh create", this.proxy(this.render));
-        TD.DamageReport.fetch();
-    },
-
-    destroy: function() {
-        // Unbind all Spine and AIQ bindings here
-        TD.DamageReport.unbind();
-
-        // Calling parent
-        this.constructor.__super__.destroy.apply(this, arguments);
+        this.listenTo(TD.DamageReport, "create", this.proxy(this._onDamageCreated));
+        this.listenTo(TD.DamageReport, "refresh", this.proxy(this._onDamagesFetched));
     },
 
     render: function (params) {
@@ -31,17 +23,34 @@ aiq.app.Controller.sub({
             // Set title in nav bar
             aiq.client.setAppTitle("Train " + selectedTrain.number);
 
-            // See http://spinejs.com/api/models for the documentation on Spine Model functions, including "findAllByAttribute(name, value)"
-            var trainDamages = TD.DamageReport.findAllByAttribute("trainId", this.trainId);
-
-            this.renderTemplate({
-                damageCount: trainDamages.length,
-                damages: trainDamages
-            });
+            TD.DamageReport.fetch();
         }
 
         // If we don't navigate to another page, we should always end this render function with "return this"
         return this;
+    },
+
+    _onDamageCreated: function() {
+        this._renderDamages(TD.DamageReport.findAllByAttribute("trainId", this.trainId));
+    },
+
+    _onDamagesFetched: function(docs) {
+        var damagesForThisTrain = [];
+
+        docs.forEach(function(doc) {
+            if (doc.trainId === this.trainId) {
+                damagesForThisTrain.push(doc);
+            }
+        }, this);
+
+        this._renderDamages(damagesForThisTrain);
+    },
+
+    _renderDamages: function(damagesForThisTrain) {
+        this.renderTemplate({
+            damageCount: damagesForThisTrain.length,
+            damages: damagesForThisTrain
+        });
     },
 
     _onAddClicked: function(e) {
