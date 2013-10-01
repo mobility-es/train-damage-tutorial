@@ -4,7 +4,6 @@ aiq.app.Controller.sub({
     },
 
     init: function () {
-        this.listenTo(TD.DamageReport, "create", this.proxy(this._onDamageCreated));
         this.listenTo(TD.DamageReport, "refresh", this.proxy(this._onDamagesFetched));
     },
 
@@ -30,10 +29,6 @@ aiq.app.Controller.sub({
         return this;
     },
 
-    _onDamageCreated: function() {
-        this._renderDamages(TD.DamageReport.findAllByAttribute("trainId", this.trainId));
-    },
-
     _onDamagesFetched: function(docs) {
         var damagesForThisTrain = [];
 
@@ -43,10 +38,6 @@ aiq.app.Controller.sub({
             }
         }, this);
 
-        this._renderDamages(damagesForThisTrain);
-    },
-
-    _renderDamages: function(damagesForThisTrain) {
         this.renderTemplate({
             damageCount: damagesForThisTrain.length,
             damages: damagesForThisTrain
