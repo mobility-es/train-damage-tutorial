@@ -1,4 +1,4 @@
-/*! aiq-api-mock - v1.0.1- - 2013-09-17 */
+/*! aiq-api-mock - v1.0.2-fc43d6 - 2013-09-19 */
 
 var aiq = aiq || {
     version: '3',

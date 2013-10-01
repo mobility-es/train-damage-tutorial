@@ -1,4 +1,4 @@
-/*! aiq-app-framework - v1.0.1- - 2013-09-20 */
+/*! aiq-app-framework - v1.0.2-1e236c - 2013-09-20 */
 
 /*! jQuery v1.9.1 | (c) 2005, 2012 jQuery Foundation, Inc. | jquery.org/license
 //@ sourceMappingURL=jquery.min.map
