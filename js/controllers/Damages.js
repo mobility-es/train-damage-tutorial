@@ -1,10 +1,16 @@
 aiq.app.Controller.sub({
-    events: {
-        "click button": "_onAddClicked"
+    navbarButtons: {
+        addEvent: {
+            label: 'Add Damage',
+            image: 'img/add.png'
+        }
+    },
+
+	events: {
+        'click @addEvent': "_onAddDamage"
     },
 
     init: function () {
-        this.listenTo(TD.DamageReport, "create", this.proxy(this._onDamageCreated));
         this.listenTo(TD.DamageReport, "refresh", this.proxy(this._onDamagesFetched));
     },
 
@@ -29,27 +35,23 @@ aiq.app.Controller.sub({
                 }
             });
         }
+		
+		this.showNavbarButtons();
 
         // If we don't navigate to another page, we should always end this render function with "return this"
         return this;
     },
 
-    _onDamageCreated: function() {
-        this._renderDamages(TD.DamageReport.all());
-    },
-
     _onDamagesFetched: function(docs) {
-        this._renderDamages(docs);
-    },
-
-    _renderDamages: function(damagesForThisTrain) {
         this.renderTemplate({
-            damageCount: damagesForThisTrain.length,
-            damages: damagesForThisTrain
+            damageCount: docs.length,
+            damages: docs
         });
     },
 
-    _onAddClicked: function(e) {
+	_onAddDamage: function () {
         this.navigate("/add-damage", this.trainId);
     }
+
+
 }).registerAs("/damages/:trainId", "Damages.tmpl");

@@ -1,8 +1,16 @@
 aiq.app.Controller.sub({
-    events: {
-        "click button": "_onSaveClicked"
+
+	navbarButtons: {
+        save: {
+            label: 'Save',
+            image: 'img/save.png'
+        }
     },
 
+    events: {
+        'click @save': '_onSave'
+    },
+	
     render: function (params) {
         if (params !== undefined && params.trainId !== undefined) {
             this.trainId = params.trainId;
@@ -11,12 +19,14 @@ aiq.app.Controller.sub({
         if (this.trainId !== undefined) {
             this.renderTemplate();
         }
+		
+		this.showNavbarButtons();
 
         // If we don't navigate to another page, we should always end this render function with "return this"
         return this;
     },
 
-    _onSaveClicked: function(e) {
+    _onSave: function() {
         var _this = this;
 
         // Request for AIQ context to retrieve username
