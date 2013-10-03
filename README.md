@@ -9,7 +9,8 @@ This tutorial is divided into six steps. Each step final code is maintained in a
   3. Stage3 - Adding a second view to the application and navigating to it when clicking on a train in the home view
   4. Stage4 - Creating a new business document (train damage report) and saving it via Datasync
   5. Stage5 - Listing the damage reports for the selected train
-  5. **Stage6 - Using the filtering capabilities of Application Models**
+  6. Stage6 - Using the filtering capabilities of Application Models
+  7. **Stage7 - Moving the buttons to the navigation bar**
 
 
 **Applies To**
