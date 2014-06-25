@@ -1,0 +1,148 @@
+ul {
+    list-style-type: none;
+}
+
+// 1 level list
+.AIQ-ui-list {
+    > li {
+
+        min-height: -aiq-em($liHeight, $baseline);
+
+        background-color: white;
+
+        // Overrides
+        & + li {
+            border: none;
+        }
+
+        > a {
+            text-decoration: none;
+            font-size: -aiq-em($liFontSize, $baseline);
+
+            // Make the same height as the parent <li>, so that the list item is clickable on its full height
+            min-height: -aiq-em($liHeight, $liFontSize);
+
+            // Override
+            padding-left: 1em;
+
+            // For the padding to be included in the height
+            @include box-sizing(border-box);
+
+            // Because even with "border-box", the border isn't included if "min-height" is set - "height" is required
+            height: -aiq-em($liHeight, $liFontSize);
+
+            background-image: $listArrow, $listBgDefault;
+            background-repeat: no-repeat, repeat-x;
+            background-position: right, 0 0;
+            background-size: $liArrowSize, auto -aiq-em($liHeight, $liFontSize);
+
+            &.active,
+            &.selected {
+                background-image: $listArrow, $listBgPressed;
+                background-repeat: no-repeat, repeat-x;
+                background-position: right, 0 0;
+                background-size: $liArrowSize, auto -aiq-em($liHeight, $liFontSize);
+            }
+        }
+    }
+}
+
+/******************************************************************************
+* 3 level list
+*****************************************************************************/
+
+$collapsedExandedBulletSize: -aiq-em(24px, $liFontSize);
+
+.AIQ-ui-list.three-levels {
+    @include box-sizing(border-box);
+
+    ul {
+        padding: 0;
+    }
+
+    a {
+        padding-top: 0.4em;
+    }
+
+    .collapsed,
+    .expanded {
+        > a {
+            background-image: $collapsedBullet, $listBgDefault;
+            background-repeat: no-repeat, repeat-x;
+            background-position: 0.3em 0.4em, 0 0;
+            background-size: $collapsedExandedBulletSize, auto -aiq-em($liHeight, $liFontSize);
+
+            &.active,
+            &.selected {
+                background-image: $collapsedBullet, $listBgPressed;
+            }
+
+            padding-left: 1.8em;
+        }
+    }
+
+    .expanded {
+        > a {
+            background-image: $expandedBullet, $lvl1HeadingExpanded;
+        }
+    }
+
+    .lvl2 {
+        &.collapsed,
+        &.expanded {
+            > a {
+                padding-left: 2.6em;
+
+                background-image: $collapsedBullet, $middleLvl2Collapsed;
+                background-position: 1.1em 0.4em, 0 0;
+
+                &.active,
+                &.selected {
+                    background-image: $collapsedBullet, $lvl2Pressed;
+                }
+            }
+        }
+
+        &.expanded {
+            > a {
+                background-image: $expandedBullet, $lvl2HeadingExpanded;
+            }
+        }
+
+        &:last-child.collapsed {
+            > a {
+                background-image: $collapsedBullet, $lastLvl2Collapsed;
+                background-repeat: no-repeat, repeat-x;
+                background-position: 1.1em 0.4em, 0 0;
+                background-size: $collapsedExandedBulletSize, auto -aiq-em($liHeight, $liFontSize);
+            }
+        }
+    }
+
+    .lvl3 {
+        $lvl3BulletSize: -aiq-em(4px, $liFontSize);
+
+        > a {
+            background-image: $lvl3Bullet, $listArrow, $middleLvl3;
+            background-repeat: no-repeat, no-repeat, repeat-x;
+            background-position: 2.8em 0.95em, right, 0 0;
+            background-size: $lvl3BulletSize, $liArrowSize, auto -aiq-em($liHeight, $liFontSize);
+
+            &.active,
+            &.selected {
+                background-image: $lvl3Bullet, $listArrow, $listBgPressed;
+            }
+
+            padding-left: 3.4em;
+        }
+
+        &:last-child {
+            > a {
+                background-image: $lvl3Bullet, $listArrow, $bottomLvl3;
+                background-repeat: no-repeat, no-repeat, repeat-x;
+                background-position: 2.8em 0.95em, right, 0 0;
+                background-size: $lvl3BulletSize, $liArrowSize, auto -aiq-em($liHeight, $liFontSize);
+            }
+        }
+    }
+}

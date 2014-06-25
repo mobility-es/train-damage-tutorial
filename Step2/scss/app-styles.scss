@@ -1,0 +1,28 @@
+/* Import framework styles */
+@import "../aiq/app/scss/mixins/css3";
+@import "../aiq/app/scss/mixins/utils";
+@import "../aiq/app/scss/variables";
+
+// Icons
+
+// Backgrounds
+
+// Cache images used on templates to prevent delays when loading
+#imageCache {
+}
+
+// Colours
+
+// Other general declarations
+.AIQ-ui-list {
+    a {
+        padding-top: 0.4em;
+    }
+}
+
+/*****************************************************************************
+* Home view
+*****************************************************************************/
+#home {
+    background-color: white;
+}

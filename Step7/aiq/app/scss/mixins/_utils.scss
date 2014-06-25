@@ -1,0 +1,30 @@
+
+// Function to calculate relative EM value for target relative to container
+@function -aiq-em($target_px, $context_px) {
+  @return $target_px / $context_px * 1em;
+}
+
+
+// clearfix mixin
+@mixin -aiq-clearfix() {
+	&:before,
+	&:after {
+		content:"";
+		display:table;
+	}
+	&:after {
+		clear:both;
+	}
+}
+
+@mixin hdpi {
+    @media screen and (-webkit-min-device-pixel-ratio: 2) {
+        @content;
+    }
+}
+
+@mixin ellipsis($whiteSpace: nowrap) {
+    white-space: $whiteSpace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
