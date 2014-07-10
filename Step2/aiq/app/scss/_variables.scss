@@ -1,0 +1,62 @@
+// Base font-size
+$baseline: 16px;
+
+// Icons
+$greyMagnifier: url('images/30x24_grey_magnifier.png');
+$listArrow: url('images/list-arrow.png');
+$rightArrow: url('images/white-right-arrow.png');
+$rightArrowDisabled: url('images/grey-right-arrow.png');
+$upArrow: url('images/white-up-arrow.png');
+$upArrowDisabled: url('images/grey-up-arrow.png');
+$downArrow: url('images/white-down-arrow.png');
+$downArrowDisabled: url('images/grey-down-arrow.png');
+$pen: url('images/white-pen.png');
+$penDisabled: url('images/grey-pen.png');
+$trash: url('images/white-trash.png');
+$trashDisabled: url('images/grey-trash.png');
+$cross: url('images/white-cross.png');
+$crossDisabled: url('images/grey-cross.png');
+$finish: url('images/white-check.png');
+$finishDisabled: url('images/grey-check.png');
+$collapsedBullet: url('images/expandable-list/collapsed-bullet.png');
+$expandedBullet: url('images/expandable-list/expanded-bullet.png');
+$lvl3Bullet: url('images/expandable-list/lvl3-bullet.png');
+
+// Backgrounds
+$inputBg: url('images/input-bg.png');
+$whiteBtnBgDefault: url('images/white-btn-bg-default.png');
+$whiteBtnBgPressed: url('images/white-btn-bg-pressed.png');
+$blackBtnBgDefault: url('images/black-btn-bg-default.png');
+$blackBtnBgPressed: url('images/black-btn-bg-pressed.png');
+$listBgDefault: url('images/list-bg-default.png');
+$listBgPressed: url('images/list-bg-pressed.png');
+$actionBarBtnBgDefault: url('images/action-bar-btn-bg-default.png');
+$actionBarBtnBgPressed: url('images/action-bar-btn-bg-pressed.png');
+$lvl1HeadingExpanded: url('images/expandable-list/lvl1-heading-expanded.png');
+$lvl2Pressed: url('images/expandable-list/lvl2-pressed.png');
+$middleLvl2Collapsed: url('images/expandable-list/middle-lvl2-collapsed.png');
+$lastLvl2Collapsed: url('images/expandable-list/last-lvl2-collapsed.png');
+$lvl2HeadingExpanded: url('images/expandable-list/lvl2-heading-expanded.png');
+$middleLvl3: url('images/expandable-list/middle-lvl3.png');
+$bottomLvl3: url('images/expandable-list/bottom-lvl3.png');
+
+// Colours
+$fontLightGreyColor: #999;
+$fontGreyColor: #666;
+$selectedParentBg: #f2f2f2;
+$widgetBorderColor: #ccc;
+
+// Input controls
+$inputBgHeight: -aiq-em(40px, $baseline);
+
+// Buttons
+$buttonHeight: 40px;
+$buttonIconSize: 24px;
+
+// 1 level list
+$liHeight: 40px;
+$liFontSize: 19px;
+$liArrowSize: -aiq-em(24px, $liFontSize);
+
+$footerHeight: 50px;
+$footerButtonFontSize: 12px;

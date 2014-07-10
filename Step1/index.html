@@ -1,0 +1,50 @@
+<!doctype html>
+<!-- Modernizr will replace the "no-js" class if JavaScript is enabled in the browser -->
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <meta name="description" content="Example application">
+
+    <!-- Mobile viewport optimization h5bp.com/ad -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <!-- Disable auto phone numbers recognition which causes ghost clicks -->
+    <meta name="format-detection" content="telephone=no"/>
+
+    <!-- Framework styles -->
+    <link rel="stylesheet" href="aiq/app/framework.css" type="text/css"/>
+
+    <!-- App styles -->
+    <link rel="stylesheet" href="css/app-styles.css" type="text/css"/>
+
+    <!-- Include Core API -->
+    <script src="aiq/aiq-api.js"></script>
+
+    <!-- Include AIQ HTML5 framework JS -->
+    <script src="aiq/app/framework.js"></script>
+
+    <script>
+        // App namespace; "TD" for "Train Damage"
+        var TD = {};
+    </script>
+
+    <!-- App JavaScripts -->
+    <!-- Controllers -->
+    <script src="js/controllers/Home.js"></script>
+
+    <script>
+        // init application
+        aiq.app.bootstrap();
+    </script>
+</head>
+
+<body>
+<!-- Required: #viewport container -->
+<div id="viewport">
+    <!-- Pages will dynamically be added here -->
+</div>
+</body>
+</html>

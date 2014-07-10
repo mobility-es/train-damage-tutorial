@@ -1,0 +1,134 @@
+button {
+    // Override browser defaults
+    padding: 0;
+    border: none;
+
+    &[disabled] {
+        opacity: 0.3;
+        cursor: default;
+    }
+
+    &.white {
+        $btnHeight: 40px;
+        $fontSize: 12px;
+
+        font-size: -aiq-em($fontSize, $baseline);
+        color: #303030;
+        background-image: $whiteBtnBgDefault;
+        background-repeat: repeat-x;
+        background-size: auto -aiq-em($btnHeight, $fontSize);
+        height: -aiq-em($btnHeight, $fontSize);
+        border: 1px solid $widgetBorderColor;
+
+        &:active,
+        &.active {
+            background-image: $whiteBtnBgPressed;
+
+            &[disabled] {
+                background-image: $whiteBtnBgDefault;
+            }
+        }
+    }
+
+    &.black {
+        color: white;
+
+        background-image: $blackBtnBgDefault;
+        background-repeat: repeat-x;
+        background-size: auto -aiq-em($buttonHeight, $baseline);
+
+        height: -aiq-em($buttonHeight, $baseline);
+
+        @include box-shadow(0 0 0.5em #111);
+
+        &[disabled] {
+            @include box-shadow(none);
+        }
+
+        &:active,
+        &.active {
+            background-image: $blackBtnBgPressed;
+
+            @include box-shadow(none);
+
+            &[disabled] {
+                background-image: $blackBtnBgDefault;
+            }
+        }
+
+        &.with-left-icon {
+
+            padding-left: -aiq-em($buttonIconSize, $baseline);
+
+            background-repeat: no-repeat, repeat-x;
+            background-size: -aiq-em($buttonIconSize, $baseline), auto -aiq-em($buttonHeight, $baseline);
+
+            $topPositionPx: ($buttonHeight - $buttonIconSize ) / 2;
+            background-position: -aiq-em($topPositionPx, $baseline) -aiq-em($topPositionPx, $baseline), 0 0;
+        }
+    }
+}
+
+//TODO: create mixing instead of such copy-paste
+a[role="next"] {
+    background-image: $rightArrow, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $rightArrow, $actionBarBtnBgPressed;
+    }
+}
+
+a[role="previous-item"] {
+    background-image: $upArrow, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $upArrow, $actionBarBtnBgPressed;
+    }
+}
+
+a[role="next-item"] {
+    background-image: $downArrow, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $downArrow, $actionBarBtnBgPressed;
+    }
+}
+
+a[role="modify"] {
+    background-image: $pen, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $pen, $actionBarBtnBgPressed;
+    }
+}
+
+a[role="delete"] {
+    background-image: $trash, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $trash, $actionBarBtnBgPressed;
+    }
+}
+
+a[role="cancel"] {
+    background-image: $cross, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $cross, $actionBarBtnBgPressed;
+    }
+}
+
+a[role="finish"] {
+    background-image: $finish, $actionBarBtnBgDefault;
+
+    &:active,
+    &.active {
+        background-image: $finish, $actionBarBtnBgPressed;
+    }
+}

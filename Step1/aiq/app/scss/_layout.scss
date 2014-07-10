@@ -1,0 +1,135 @@
+/*
+* Document Layout
+*/
+
+body,
+html {
+    width: 100%;
+
+    /* For loading spinner to be visible */
+    height: 100%;
+
+    /* To avoid horizontal scrollbar to show when transitioning to another page */
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+}
+
+/*
+* Viewport
+*/
+
+#viewport {
+    box-sizing: border-box;
+}
+
+#viewport > * {
+    display: block;
+    box-sizing: border-box;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+}
+
+/* Force current and previous page on top of any other pages in the stack */
+#viewport .AIQ-current {
+    z-index: 10;
+}
+
+#viewport .AIQ-previous {
+    z-index: 9;
+}
+
+header {
+    height: 1.875em; /* 30 px */
+}
+
+/* line 82, ../scss/include/_base.scss */
+.AIQ-in {
+ z-index: 100 !important; /* This is also enforced in layout.css on .current */
+}
+/* used to override when hitting back button */
+.AIQ-out.AIQ-back {
+	z-index: 110 !important;
+}
+
+.AIQ-page article {
+    box-sizing: border-box;
+}
+
+.AIQ-page >article {
+    /*
+         Use CSS native scrolling for supported browsers
+         Fallback scrolling is enabled in AIQ.App using iScroll plugin
+         */
+    -webkit-overflow-scrolling: touch;
+    overflow: auto;
+}
+
+.AIQ-page.hidden-page {
+    opacity: 0;
+    /* Fix horizontal scroll */
+    display: none !important;
+    overflow: hidden;
+}
+
+/* Always make room for page specific footers */
+.AIQ-page.hasFooter > article {
+    bottom: 3.125em !important; /* 50 px */
+}
+
+/*
+* Global/Page specific Footer
+*/
+footer {
+    height: 3.125em; /* 50px */
+    width: 100%;
+}
+
+/**
+* UI Tabs Controller
+*/
+/* Show tabs controller header - contains tab buttons */
+.AIQ-ui-tabs > header {
+    display: block;
+}
+
+.AIQ-ui-tabs > nav {
+    height: 2.5em; /* 40px */
+}
+
+/* hide tabs by default */
+.AIQ-ui-tabs section {
+    box-sizing: border-box;
+    padding: 0;
+    opacity: 0;
+    position: static;
+    overflow: hidden;
+    height: 0;
+}
+
+.AIQ-ui-tabs section.visible {
+    -webkit-transition: opacity .25s;
+    -moz-transition: opacity .25s;
+    -ms-transition: opacity .25s;
+    -o-transition: opacity .25s;
+    transition: opacity .25s;
+
+    padding: 0 1em;
+    opacity: 1;
+    height: auto;
+}
+
+
+

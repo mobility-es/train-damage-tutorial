@@ -1,0 +1,115 @@
+/* AIQ base style */
+
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    tap-highlight-color: rgba(0, 0, 0, 0);
+
+    /* fix crappy antialising in Chrome when using CSS transforms */
+    -webkit-font-smoothing: antialiased;
+}
+
+html {
+    background-color: #222;
+    background-image: url('images/background-grey.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+body {
+    -webkit-user-select: none;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    /* We must allow to scale down app in preview, most browsers cap at 9px so base size needs to be significantly larger. */
+    font-size: 100%; /* makes 1em = 16px this is large enough */
+    color: black;
+}
+
+body:not(.loaded) {
+    background-image: url('images/loader.gif');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
+body:not(.loaded) #viewport {
+    opacity: 0;
+}
+
+body.loaded {
+    background-image: none;
+    height: auto;
+}
+
+body.loaded #viewport {
+    opacity: 1;
+    -webkit-transition: opacity .8s ease-in;
+    -moz-transition: opacity .8s ease-in;
+    -ms-transition: opacity .8s ease-in;
+    -o-transition: opacity .8s ease-in;
+    transition: opacity .8s ease-in;
+}
+
+a, button {
+    cursor: pointer;
+}
+
+footer {
+    background: #333 url('images/background-grey.png') 0 0 repeat-x;
+    background-size: cover;
+}
+
+/******************************************************************************
+* UI List
+*****************************************************************************/
+
+.AIQ-ui-list {
+    list-style-type: none;
+    width: 100%;
+}
+
+.AIQ-ui-list li {
+    background-color: #f2f2f2;
+    display: block;
+    min-height: 4em;
+
+    /* Prevents flickering on Android */
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+}
+
+/* Prevents flickering on Android */
+.AIQ-ui-list a {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+}
+
+.AIQ-ui-list li > * {
+    padding: .25em .75em;
+
+    /* TODO switch to SCSS for framework and use -aiq-em()
+  font-size: 1.8em;
+   line-height: 1.8em;*/
+}
+
+.AIQ-ui-list li > a {
+    display: block;
+    color: black;
+}
+
+.AIQ-ui-list li + li {
+    border-top: 1px solid #ccc;
+}
+
+/* :active style is triggered to fast
+   - doesn't look native when scrolling lists
+   - .active is added by framework with 200ms delay
+*/
+.AIQ-ui-list li a.active,
+.AIQ-ui-list li a.selected {
+    background-color: #d9d9d9;
+}
+
+
+

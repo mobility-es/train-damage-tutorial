@@ -1,0 +1,42 @@
+/* Import framework styles */
+.AIQ-ui-list a {
+    padding-top: 0.4em;
+}
+
+/*****************************************************************************
+* Home view
+*****************************************************************************/
+#home {
+    background-color: white;
+}
+
+/*****************************************************************************
+* Add damage view
+*****************************************************************************/
+#add-damage {
+    text-align: center;
+}
+
+#add-damage > div {
+    margin: 1em;
+    text-align: center;
+}
+
+#add-damage h1 {
+    color: white;
+    font-size: 1em;
+    margin-bottom: 1em;
+}
+
+#add-damage textarea {
+    width: 100%;
+    height: 12em;
+    padding: 0.5em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#add-damage > button {
+    padding: 0 1em;
+}
